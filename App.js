@@ -7,49 +7,49 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, StatusBar} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
+import { createSwitchNavigator } from 'react-navigation';
+import firebase from 'react-native-firebase'
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+import Loading from './src/screens/Loading';
+import SignUp from './src/screens/SignUp';
+import Login from './src/screens/Login';
+import Main from './src/screens/Main';
 
 type Props = {};
 export default class App extends Component<Props> {
-  componentDidMount() {
-    SplashScreen.hide()
-  }
+  // componentDidMount() {
+  //   var that = this;
+  //   firebase.auth().onAuthStateChanged(user => {
+  //     that.props.navigation.navigate(user ? 'Main' : 'SignUp')
+  //   })
+  //   SplashScreen.hide()
+  // }
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
-      </View>
+      <AppSwitchNavigator/>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#4F6D7A',
+const AppSwitchNavigator = new createSwitchNavigator(
+  {
+    Loading,
+    Login,
+    SignUp,
+    Main
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-    color: '#F5FCFF',
+  {
+    initialRouteName: 'Loading'
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#F5FCFF',
-    marginBottom: 5,
+  {
+    Main: 'Main'
   },
-});
+  {
+    Login: 'Login'
+  },
+  {
+    SignUp: 'SignUp'
+  }
+)
