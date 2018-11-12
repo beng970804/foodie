@@ -41,9 +41,6 @@ buck-out/
 \.buckd/
 *.keystore
 
-# Google Services (e.g. APIs or Firebase)
-google-services.json
-
 # fastlane
 #
 # It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
