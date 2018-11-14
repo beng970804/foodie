@@ -5,7 +5,8 @@ import Button from '../components/Button'
 import Input from '../components/Input'
 import Spinner from '../components/Spinner'
 import firebase from 'react-native-firebase'
-import Login from './Login';
+import Login from './Login'
+import { Tabs } from '../config/Router'
 
 export default class Main extends React.Component {
   state = { currentUser: null, loading: false }
@@ -59,15 +60,10 @@ export default class Main extends React.Component {
     const { currentUser } = this.state
 
     return (
-      <View style={styles.container}>
-        <Text>
-          Hi {currentUser && currentUser.email}!
-        </Text>
 
-        {this.renderButton()}
+      <Tabs />
 
-      </View>
-    )
+    );
   }
 }
 
