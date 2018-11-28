@@ -4,18 +4,20 @@ import { fonts, colors } from '../theme'
 import Button from '../components/Button'
 import Input from '../components/Input'
 import Spinner from '../components/Spinner'
-import firebase from 'react-native-firebase'
+import firebase, { firestore } from 'react-native-firebase'
 
-export default class SignUp extends React.Component {
-  state = { email: '', password: '',password2: '', error: '', loading: false }
+class SignUp extends React.Component {
+  state = {username: '', email: '', password: '',password2: '', error: '', loading: false }
 
   handleSignUp = () => {
-    const { email, password, password2 } = this.state;
+    const {username, email, password, password2 } = this.state;
 
     this.setState({error: '', loading: true});
 
-    if (!email || !password || !password2){
-      return this.setState({error: 'Please fill in all fields.', loading: false});
+    this.ref = firebase.firestore().collection('users');
+
+    if (!username || !email || !password || !password2){
+      return this.setState({error: 'Please fill in all the fields.', loading: false});
     }
     else if (password != password2){
       return this.setState({error: 'Please enter the same password.', loading: false});
@@ -24,7 +26,6 @@ export default class SignUp extends React.Component {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      // .then(user => this.props.navigation.navigate('Main'))
       .then(this.onSignUpSuccess.bind(this))
       .catch(this.onSignUpFail.bind(this))
     );
@@ -32,7 +33,9 @@ export default class SignUp extends React.Component {
 
   renderButton() {
     if (this.state.loading){
-      return <Spinner size="small"/>
+      return(
+        <Spinner size="small"/>
+      )
     }
     return(
       <Button onPress={this.handleSignUp.bind(this)}>
@@ -47,13 +50,22 @@ export default class SignUp extends React.Component {
   }
 
   onSignUpSuccess() {
+    let uid = firebase.auth().currentUser.uid;
+    this.ref.add({
+      username : this.state.username,
+      email : this.state.email,
+      uid : uid
+    });
+
     !this.isSuccussful && this.setState({
+      username: '',
       email: '',
       password: '',
       password2: '',
       loading: false,
       error: ''
     });
+
     this.props.navigator.push({
       component: Main
     });
@@ -84,6 +96,11 @@ export default class SignUp extends React.Component {
 
         <View style={styles.inputContainer}>
           <Input
+            placeholder="UserName"
+            onChangeText={username => this.setState({ username })}
+            value={this.state.username}
+          />
+          <Input
             placeholder="Email"
             onChangeText={email => this.setState({ email })}
             value={this.state.email}
@@ -91,13 +108,13 @@ export default class SignUp extends React.Component {
           <Input
             placeholder="Password"
             onChangeText={password => this.setState({ password })}
-          value={this.state.password}
+            value={this.state.password}
             secureTextEntry
           />
           <Input
             placeholder="Confirm Password"
             onChangeText={password2 => this.setState({ password2 })}
-          value={this.state.password2}
+            value={this.state.password2}
             secureTextEntry
           />
         </View>
@@ -126,7 +143,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    paddingHorizontal: 40
+    paddingHorizontal: 40,
+    backgroundColor: '#FFFFFF'
   },
   greeting: {
     marginTop: 20,
@@ -154,3 +172,5 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5
   }
 })
+
+export default SignUp;

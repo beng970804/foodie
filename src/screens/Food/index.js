@@ -1,14 +1,13 @@
-import React from 'react'
-import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, StatusBar } from 'react-native'
-import { fonts, colors } from '../theme'
-import Button from '../components/Button'
-import Input from '../components/Input'
-import Spinner from '../components/Spinner'
-import firebase from 'react-native-firebase'
-import Login from './Login'
-import { Tabs } from '../config/Router'
+import React, { Component } from 'react';
+import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, StatusBar } from 'react-native';
 
-export default class Main extends React.Component {
+import firebase from 'react-native-firebase'
+import Login from '../Login'
+import { fonts, colors } from '../../theme'
+import Button from '../../components/Button'
+import Spinner from '../../components/Spinner'
+
+class Food extends Component {
   state = { currentUser: null, loading: false }
 
   componentDidMount() {
@@ -60,17 +59,12 @@ export default class Main extends React.Component {
     const { currentUser } = this.state
 
     return (
-
-      <Tabs />
+      <View>
+        {this.renderButton()}
+      </View>
 
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-})
+export default Food;

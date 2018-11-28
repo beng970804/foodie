@@ -1,14 +1,23 @@
 import React from 'react'
 import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, StatusBar } from 'react-native'
+import SplashScreen from 'react-native-splash-screen'
+import firebase from 'react-native-firebase'
+
 import { fonts, colors } from '../theme'
 import Button from '../components/Button'
 import Input from '../components/Input'
 import Spinner from '../components/Spinner'
-import firebase from 'react-native-firebase'
 
-export default class Login extends React.Component {
+class Login extends React.Component {
   state = { email: '', password: '', error: '', loading: false }
   
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      this.props.navigation.navigate(user ? 'Restaurant' : 'Login')
+    })
+    SplashScreen.hide()
+  }
+
   handleLogin = () => {
     const { email, password } = this.state;
 
@@ -28,7 +37,9 @@ export default class Login extends React.Component {
 
   renderButton() {
     if (this.state.loading){
-      return <Spinner size="small"/>
+      return(
+        <Spinner size="small"/>
+      )
     }
     return(
       <Button onPress={this.handleLogin.bind(this)}>
@@ -44,7 +55,7 @@ export default class Login extends React.Component {
       loading: false,
       error: ''
     });
-    this.props.navigator.push({
+    this.props.navigation.navigate({
       component: Main
     });
   }
@@ -115,7 +126,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    paddingHorizontal: 40
+    paddingHorizontal: 40,
+    backgroundColor: '#FFFFFF'
   },
   greeting: {
     marginTop: 20,
@@ -143,3 +155,5 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5
   }
 })
+
+export default Login;

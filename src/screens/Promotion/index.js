@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
+import firebase, { Firebase } from 'react-native-firebase';
 
-class Food extends Component {
+class Promotion extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,10 +12,10 @@ class Food extends Component {
   render() {
     return (
       <View>
-        <Text> Food </Text>
+        <Text> Promotion </Text>
       </View>
     );
   }
 }
 
-export default Food;
+export default Promotion;

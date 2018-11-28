@@ -8,7 +8,8 @@ const colors = {
     hairline: 'Lato-Hairline',
     light: 'Lato-Light',
     base: 'Lato-Regular',
-    bold: 'Lato-Bold'
+    bold: 'Lato-Bold',
+    airbnbLight: 'Montserrat-Light'
   }
   
   export {
