@@ -7,6 +7,12 @@ import Spinner from '../components/Spinner'
 import firebase, { firestore } from 'react-native-firebase'
 
 class SignUp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onSignUpFail = this.onSignUpFail.bind(this);
+    this.onSignUpSuccess = this.onSignUpSuccess.bind(this);
+    this.handleSignUp = this.handleSignUp.bind(this);
+  }
   state = {username: '', email: '', password: '',password2: '', error: '', loading: false }
 
   handleSignUp = () => {
@@ -27,8 +33,8 @@ class SignUp extends React.Component {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(this.onSignUpSuccess.bind(this))
-      .catch(this.onSignUpFail.bind(this))
+      .then(() => this.onSignUpSuccess())
+      .catch(() => this.onSignUpFail())
     );
   }
 
@@ -39,7 +45,7 @@ class SignUp extends React.Component {
       )
     }
     return(
-      <Button onPress={this.handleSignUp.bind(this)}>
+      <Button onPress={() => this.handleSignUp()}>
           Sign Up
       </Button>
     );
@@ -67,9 +73,7 @@ class SignUp extends React.Component {
       error: ''
     });
 
-    this.props.navigator.push({
-      component: Main
-    });
+    this.props.navigation.navigate('Menu');
 
     Alert.alert(
       'Signup successfully'

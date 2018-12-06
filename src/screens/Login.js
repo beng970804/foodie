@@ -9,6 +9,12 @@ import Input from '../components/Input'
 import Spinner from '../components/Spinner'
 
 class Login extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onLoginSuccess = this.onLoginSuccess.bind(this);
+    this.onLoginFail = this.onLoginFail.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+  }
   state = { email: '', password: '', error: '', loading: false}
   
   componentDidMount() {
@@ -43,8 +49,8 @@ class Login extends React.Component {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then(this.onLoginSuccess.bind(this))
-      .catch(this.onLoginFail.bind(this))
+      .then(() => this.onLoginSuccess())
+      .catch(() => this.onLoginFail())
     );
   }
 
@@ -55,7 +61,7 @@ class Login extends React.Component {
       )
     }
     return(
-      <Button onPress={this.handleLogin.bind(this)}>
+      <Button onPress={() => this.handleLogin()}>
           Sign In
       </Button>
     );
@@ -68,9 +74,7 @@ class Login extends React.Component {
       loading: false,
       error: ''
     });
-    this.props.navigation.navigate({
-      component: Main
-    });
+    this.props.navigation.navigate('Restaurant');
     Alert.alert(
       'Login successfully'
     )
@@ -113,7 +117,7 @@ class Login extends React.Component {
           <Input
             placeholder="Password"
             onChangeText={password => this.setState({ password })}
-          value={this.state.password}
+            value={this.state.password}
             secureTextEntry
           />
         </View>

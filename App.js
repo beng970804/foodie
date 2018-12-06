@@ -24,10 +24,11 @@ import MyBooking from './src/screens/Profile/MyBooking';
 import MyHistory from './src/screens/Profile/MyHistory';
 import MyFavourite from './src/screens/Profile/MyFavourite';
 
+import Menu from './src/screens/Menu/index';
+
 import { colors } from './src/theme';
 
 const AuthState = new createStackNavigator ({
-  // Loading: Loading,
   Login: Login,
   SignUp: SignUp
 },{
@@ -95,9 +96,32 @@ const Tabs = createBottomTabNavigator({
   }
 })
 
+const Owner = createBottomTabNavigator({
+  Menu: {
+    screen: Menu,
+    navigationOptions: {
+        tabBarLabel: 'Menu',
+        tabBarIcon: ({ tintColor }) => (
+            <Ionicons name= "ios-restaurant" size={24} color={tintColor}/>
+        )
+    }
+  }
+}, {
+  tabBarOptions: {
+    activeTintColor: colors.primary,
+    inactiveTintColor: colors.grey,
+    style: {
+      backgroundColor: 'white',
+      borderTopWidth: 0,
+      elevation: 5
+    }
+  } 
+})
+
 const AppStackNavigator = new createStackNavigator(
   {
     AuthState: AuthState,
+    Owner: Owner,
     Tabs: Tabs
   },
   {
