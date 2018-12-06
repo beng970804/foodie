@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, StatusBar } from 'react-native'
+import { StyleSheet, Text, TextInput, View, Image, Alert, Keyboard, PermissionsAndroid } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import firebase from 'react-native-firebase'
 
@@ -9,18 +9,31 @@ import Input from '../components/Input'
 import Spinner from '../components/Spinner'
 
 class Login extends React.Component {
-  state = { email: '', password: '', error: '', loading: false }
+  state = { email: '', password: '', error: '', loading: false}
   
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       this.props.navigation.navigate(user ? 'Restaurant' : 'Login')
     })
     SplashScreen.hide()
+    async function requestPermission() {
+      try {
+        const granted = await PermissionsAndroid.requestMultiple(
+          [PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+           PermissionsAndroid.PERMISSIONS.CAMERA,
+           PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+           PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE]
+        )
+      } catch (err) {
+        console.warn(err)
+      }
+    }
+    requestPermission()
   }
 
   handleLogin = () => {
+    Keyboard.dismiss();
     const { email, password } = this.state;
-
     this.setState({error: '', loading: true});
 
     if (!email || !password){
@@ -58,6 +71,9 @@ class Login extends React.Component {
     this.props.navigation.navigate({
       component: Main
     });
+    Alert.alert(
+      'Login successfully'
+    )
   }
 
   componentWillUnmount() {

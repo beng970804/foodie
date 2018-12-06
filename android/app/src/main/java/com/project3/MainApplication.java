@@ -3,6 +3,7 @@ package com.project3;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.imagepicker.ImagePickerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import io.invertase.firebase.RNFirebasePackage;
@@ -12,6 +13,7 @@ import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
+import io.invertase.firebase.storage.RNFirebaseStoragePackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,12 +29,14 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new VectorIconsPackage(),
-            new SplashScreenReactPackage(),
-            new RNFirebasePackage(),
-            new RNFirebaseAuthPackage(),
-          new RNFirebaseFirestorePackage()
+        new MainReactPackage(),
+        new ImagePickerPackage(),
+        new VectorIconsPackage(),
+        new SplashScreenReactPackage(),
+        new RNFirebasePackage(),
+        new RNFirebaseAuthPackage(),
+        new RNFirebaseStoragePackage(),
+        new RNFirebaseFirestorePackage()
       );
     }
 

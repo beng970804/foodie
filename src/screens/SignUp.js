@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, StatusBar } from 'react-native'
+import { StyleSheet, Text, TextInput, View, Image, Alert, Keyboard } from 'react-native'
 import { fonts, colors } from '../theme'
 import Button from '../components/Button'
 import Input from '../components/Input'
@@ -10,6 +10,7 @@ class SignUp extends React.Component {
   state = {username: '', email: '', password: '',password2: '', error: '', loading: false }
 
   handleSignUp = () => {
+    Keyboard.dismiss();
     const {username, email, password, password2 } = this.state;
 
     this.setState({error: '', loading: true});
@@ -69,6 +70,10 @@ class SignUp extends React.Component {
     this.props.navigator.push({
       component: Main
     });
+
+    Alert.alert(
+      'Signup successfully'
+    )
   }
 
   onSignUpFail() {
