@@ -8,9 +8,14 @@ import Login from '../Login'
 import { fonts,colors } from '../../theme';
 
 class Profile extends Component {
+  constructor(props) {
+    super(props);
+    this.onLogoutSuccess = this.onLogoutSuccess.bind(this);
+    this.onLogoutFail = this.onLogoutFail.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
+  }
   state = { currentUser: null}
 
-  //all loading is unnecessary in this profile section
   componentDidMount() {
     const { currentUser } = firebase.auth()
     this.setState({ currentUser })
@@ -27,17 +32,15 @@ class Profile extends Component {
     firebase
       .auth()
       .signOut()
-      .then(this.onLogoutSuccess.bind(this))
-      .catch(this.onLogoutFail.bind(this));
+      .then(() => this.onLogoutSuccess())
+      .catch(() => this.onLogoutFail());
   }
 
   onLogoutSuccess() {
     !this.isSuccussful && this.setState({
       error: ''
     });
-    this.props.navigator.navigate({
-      component: Login
-    });
+    this.props.navigation.navigate('Login');
   }
 
   onLogoutFail() {
@@ -118,7 +121,7 @@ class Profile extends Component {
             containerStyle = {{paddingRight:35, paddingBottom:35, paddingTop: 15}}
             title="Log out"
             rightIcon={<Ionicons name= "md-log-out" size={30} color='grey'/>}
-            onPress={this.handleLogout.bind(this)}
+            onPress={() => this.handleLogout()}
             />
         </List>
 

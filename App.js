@@ -28,6 +28,8 @@ import MyFavourite from './src/screens/Profile/MyFavourite';
 import Menu from './src/screens/Menu/index';
 
 import ManageRestaurant from './src/screens/ManageRestaurant/index';
+import AddRestaurant from './src/screens/ManageRestaurant/AddRestaurant';
+import DeleteRestaurant from './src/screens/ManageRestaurant/DeleteRestaurant';
 
 import { colors } from './src/theme';
 
@@ -51,7 +53,7 @@ const ProfileScreen = new createSwitchNavigator ({
   },
 })
 
-const Tabs = createBottomTabNavigator({
+const Customer = createBottomTabNavigator({
   Restaurant: {
       screen: Restaurant,
       navigationOptions: {
@@ -144,12 +146,23 @@ const Admin = createBottomTabNavigator({
   } 
 })
 
+const AdminScreen = new createSwitchNavigator ({
+  AddRestaurant: AddRestaurant, 
+  DeleteRestaurant: DeleteRestaurant,
+},{
+  navigationOptions: {
+    header: null
+  },
+})
+
 const AppStackNavigator = new createStackNavigator(
   {
     AuthState: AuthState,
     Owner: Owner,
     Admin: Admin,
-    Tabs: Tabs
+    Customer: Customer,
+    AdminScreen: AdminScreen,
+    ProfileScreen: ProfileScreen
   },
   {
     initialRouteName: 'AuthState',
