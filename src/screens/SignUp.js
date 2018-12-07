@@ -1,10 +1,12 @@
 import React from 'react'
-import { StyleSheet, Text, TextInput, View, Image, Alert, Keyboard } from 'react-native'
+import { StyleSheet, Text, TextInput, View, Image, Alert, Keyboard, Picker } from 'react-native'
+import firebase, { firestore } from 'react-native-firebase'
+
 import { fonts, colors } from '../theme'
 import Button from '../components/Button'
 import Input from '../components/Input'
 import Spinner from '../components/Spinner'
-import firebase, { firestore } from 'react-native-firebase'
+
 
 class SignUp extends React.Component {
   constructor(props) {
@@ -13,15 +15,14 @@ class SignUp extends React.Component {
     this.onSignUpSuccess = this.onSignUpSuccess.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
   }
-  state = {username: '', email: '', password: '',password2: '', error: '', loading: false }
+  
+  state = {username: '', email: '', password: '',password2: '', error: '', loading: false, PickerValue: 'Customer' }
 
   handleSignUp = () => {
     Keyboard.dismiss();
-    const {username, email, password, password2 } = this.state;
+    const {username, email, password, password2, PickerValue } = this.state;
 
     this.setState({error: '', loading: true});
-
-    this.ref = firebase.firestore().collection('users');
 
     if (!username || !email || !password || !password2){
       return this.setState({error: 'Please fill in all the fields.', loading: false});
@@ -58,11 +59,19 @@ class SignUp extends React.Component {
 
   onSignUpSuccess() {
     let uid = firebase.auth().currentUser.uid;
-    this.ref.add({
-      username : this.state.username,
-      email : this.state.email,
-      uid : uid
+    this.ref = firebase.firestore().collection('users').doc(uid);
+    this.ref.set({
+      userName : this.state.username,
+      userEmail : this.state.email,
+      userId : uid,
+      userType : this.state.PickerValue
     });
+
+    if (this.state.PickerValue == 'Customer'){
+      return this.props.navigation.navigate('Restaurant');
+    }else {
+      return this.props.navigation.navigate('Menu')
+    }
 
     !this.isSuccussful && this.setState({
       username: '',
@@ -70,10 +79,9 @@ class SignUp extends React.Component {
       password: '',
       password2: '',
       loading: false,
-      error: ''
+      error: '',
+      PickerValue: ''
     });
-
-    this.props.navigation.navigate('Menu');
 
     Alert.alert(
       'Signup successfully'
@@ -126,6 +134,14 @@ class SignUp extends React.Component {
             value={this.state.password2}
             secureTextEntry
           />
+          <Picker
+          style={{width:'80%'}}
+          selectedValue={this.state.PickerValue}
+          onValueChange={(itemValue,itemIndex) => this.setState({PickerValue:itemValue})}
+          >
+          <Picker.Item label="Customer" value="Customer" />
+          <Picker.Item label="Restaurant Owner" value="Restaurant Owner"/>
+          </Picker>
         </View>
 
         <Text style={styles.errorTextStyle}>{this.state.error}</Text>
