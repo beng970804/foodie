@@ -90,7 +90,7 @@ class ManageRestaurant extends Component {
             onPress={() => this.deleteRestaurantScreen()}
             />
             <ListItem
-            containerStyle = {{paddingRight:35, paddingBottom:120, paddingTop: 15}}
+            containerStyle = {{paddingRight:35, paddingBottom:15, paddingTop: 15}}
             title="Log out"
             rightIcon={<Ionicons name= "md-log-out" size={30} color='grey'/>}
             onPress={() => this.handleLogout()}

@@ -11,7 +11,7 @@ class Menu extends Component {
   render() {
     return (
       <View>
-        <Text> textInComponent </Text>
+        <Text> menu </Text>
       </View>
     );
   }

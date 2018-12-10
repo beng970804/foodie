@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, TextInput, View, Image, Alert, Keyboard, Picker } from 'react-native'
+import { StyleSheet, Text, View, Image, Alert, Keyboard, Picker } from 'react-native'
 import firebase, { firestore } from 'react-native-firebase'
 
 import { fonts, colors } from '../theme'

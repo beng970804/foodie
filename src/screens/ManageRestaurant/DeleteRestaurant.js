@@ -1,5 +1,16 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image, Alert, Keyboard, Platform } from 'react-native'
+import firebase, { firestore } from 'react-native-firebase'
+import { Tile, Button } from 'react-native-elements'
+import ImagePicker, { showImagePicker } from "react-native-image-picker"
+
+import { fonts, colors } from '../../theme'
+import Input from '../../components/Input'
+import Spinner from '../../components/Spinner'
+
+const styles = StyleSheet.create({
+
+})
 
 class DeleteRestaurant extends Component {
   constructor(props) {
@@ -10,9 +21,9 @@ class DeleteRestaurant extends Component {
 
   render() {
     return (
-      <View>
-        <Text> textInComponent </Text>
-      </View>
+      <ScrollView>
+        
+      </ScrollView>
     );
   }
 }

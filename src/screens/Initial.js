@@ -20,13 +20,13 @@ class Initial extends Component {
         var userId = firebase.auth().currentUser.uid;
         firebase.firestore().collection('users').doc(userId).get().then(snapshot => {
         var userType = (snapshot.data() && snapshot.data().userType);
-        if (userType === 'Customer') {
-          return this.props.navigation.navigate('Restaurant')
-        }else if (userType === 'Admin') {
-          return this.props.navigation.navigate('ManageRestaurant')
-        }else {
-          return this.props.navigation.navigate('Menu')
-        }
+          if (userType === 'Customer') {
+            return this.props.navigation.navigate('Restaurant')
+          }else if (userType === 'Admin') {
+            return this.props.navigation.navigate('ManageRestaurant')
+          }else {
+            return this.props.navigation.navigate('Menu')
+          }
         })
       }
     })

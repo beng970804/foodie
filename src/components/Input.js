@@ -6,7 +6,7 @@ import {
 
 import { colors, fonts } from '../theme'
 
-export default ({ placeholder, onChangeText, type, ...props }) => (
+const Input = ({ placeholder, onChangeText, type, ...props }) => (
   <TextInput
     autoCapitalize='none'
     autoCorrect={false}
@@ -29,3 +29,5 @@ const styles = StyleSheet.create({
     fontFamily: fonts.light
   }
 })
+
+export default Input;
