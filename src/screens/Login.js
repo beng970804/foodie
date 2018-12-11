@@ -1,12 +1,53 @@
-import React from 'react'
-import { StyleSheet, Text, TextInput, View, Image, Alert, Keyboard} from 'react-native'
-import SplashScreen from 'react-native-splash-screen'
-import firebase, { firestore } from 'react-native-firebase'
+import React from 'react';
+import { StyleSheet, Text, TextInput, View, Image, Alert, Keyboard} from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
+import firebase, { firestore } from 'react-native-firebase';
 
-import { fonts, colors } from '../theme'
-import Button from '../components/Button'
-import Input from '../components/Input'
-import Spinner from '../components/Spinner'
+import { fonts, colors } from '../theme';
+import Button from '../components/Button';
+import Input from '../components/Input';
+import Spinner from '../components/Spinner';
+
+const styles = StyleSheet.create({
+  heading: {
+    flexDirection: 'row'
+  },
+  headingImage: {
+    width: 38,
+    height: 38
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 40,
+    backgroundColor: '#FFFFFF'
+  },
+  greeting: {
+    marginTop: 20,
+    fontSize: 24,
+    fontFamily: fonts.light
+  },
+  greeting2: {
+    color: '#666',
+    fontSize: 24,
+    marginTop: 5,
+    fontFamily: fonts.light
+  },
+  errorTextStyle: {
+    color: '#E64A19',
+    paddingTop: 3,
+    paddingBottom: 3
+  },
+  inputContainer: {
+    marginTop: 20
+  },
+  signUpStyle: {
+    color: '#F5F5F5',
+    fontFamily: fonts.light,
+    fontSize: 12,
+    letterSpacing: 0.5
+  }
+})
 
 class Login extends React.Component {
   constructor(props) {
@@ -114,46 +155,5 @@ class Login extends React.Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  heading: {
-    flexDirection: 'row'
-  },
-  headingImage: {
-    width: 38,
-    height: 38
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: 40,
-    backgroundColor: '#FFFFFF'
-  },
-  greeting: {
-    marginTop: 20,
-    fontSize: 24,
-    fontFamily: fonts.light
-  },
-  greeting2: {
-    color: '#666',
-    fontSize: 24,
-    marginTop: 5,
-    fontFamily: fonts.light
-  },
-  errorTextStyle: {
-    color: '#E64A19',
-    paddingTop: 3,
-    paddingBottom: 3
-  },
-  inputContainer: {
-    marginTop: 20
-  },
-  signUpStyle: {
-    color: '#F5F5F5',
-    fontFamily: fonts.light,
-    fontSize: 12,
-    letterSpacing: 0.5
-  }
-})
 
 export default Login;

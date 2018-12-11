@@ -168,7 +168,8 @@ const AppStackNavigator = new createStackNavigator(
     initialRouteName: 'AuthState',
     navigationOptions: {
       header: null
-    }
+    },
+    cardStyle: { backgroundColor: '#FFFFFF' }
   }
 )
 

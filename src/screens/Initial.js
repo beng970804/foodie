@@ -5,6 +5,15 @@ import firebase, { firestore } from 'react-native-firebase';
 
 import Spinner from '../components/Spinner';
 
+const styles = StyleSheet.create({
+  container: {
+      flex: 1,
+      justifyContent: 'center',
+      paddingHorizontal: 40,
+      backgroundColor: '#FFFFFF'
+  }
+})
+
 class Initial extends Component {
   constructor(props) {
     super(props);
@@ -54,14 +63,5 @@ class Initial extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        paddingHorizontal: 40,
-        backgroundColor: '#FFFFFF'
-    }
-})
 
 export default Initial;

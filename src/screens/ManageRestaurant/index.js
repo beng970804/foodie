@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { ScrollView, FlatList, Linking } from 'react-native';
+import { View } from 'react-native';
 import { Tile, List, ListItem} from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import firebase, { firestore } from 'react-native-firebase';
-
-import { fonts,colors } from '../../theme';
 
 class ManageRestaurant extends Component {
   constructor(props) {
@@ -58,7 +56,7 @@ class ManageRestaurant extends Component {
   render() {
     const { currentUser } = this.state
     return (
-      <ScrollView>
+      <View>
         <Tile
           imageSrc={require('../../assets/surface.jpg')}
           featured
@@ -96,8 +94,7 @@ class ManageRestaurant extends Component {
             onPress={() => this.handleLogout()}
             />
         </List>
-
-      </ScrollView>
+      </View>
     );
   }
 }
