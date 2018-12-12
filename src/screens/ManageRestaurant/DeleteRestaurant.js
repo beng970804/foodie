@@ -43,14 +43,14 @@ class DeleteRestaurant extends Component {
   onCollectionUpdate = (querySnapshot) => {
     const restaurants = [];
     querySnapshot.forEach((doc) => {
-      const { restaurantName, restaurantEmail, restaurantImageUri } = doc.data();
+      const { restaurantName, restaurantDescription, restaurantImageUrl } = doc.data();
       restaurants.push({
         key: doc.id,
         id: doc.id,
         doc, // DocumentSnapshot
         restaurantName,
-        restaurantEmail,
-        restaurantImageUri
+        restaurantDescription,
+        restaurantImageUrl
       });
     });
     this.setState({ 

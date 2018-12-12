@@ -45,23 +45,26 @@ class AdminRestaurantList extends Component {
     constructor(props) {
         super(props);   
         this.state = {
-            activeRowKey: null
+            activeRowKey: null,
+            activeImage: null
         };   
         this.ref = firebase.firestore().collection('restaurants');
+        this.sto = firebase.storage();
         this.confirmation = this.confirmation.bind(this);  
         this.deleteRestaurant = this.deleteRestaurant.bind(this);  
         this.deleteSuccessful = this.deleteSuccessful.bind(this);
-        this.deleteFailed = this.deleteFailed.bind(this);         
+        this.deleteFailed = this.deleteFailed.bind(this);   
+        this.deleteImage = this.deleteImage.bind(this);      
     }
 
-    confirmation(deletingRow) {
+    confirmation(deletingRow, deletingImage) {
         Alert.alert(
             'Alert',
             'Are you sure you want to delete?',
             [
                 {text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
                 {text: 'Yes', onPress: () => {        
-                  this.deleteRestaurant(deletingRow);
+                  this.deleteRestaurant(deletingRow, deletingImage);
                 }},
             ],
             { cancelable: true }
@@ -82,8 +85,15 @@ class AdminRestaurantList extends Component {
         );
     }
 
-    deleteRestaurant(deletingRow) {
+    deleteRestaurant(deletingRow, deletingImage) {
         this.ref.doc(deletingRow)
+        .delete()
+        .then(() => this.deleteImage(deletingImage))
+        .catch(() => this.deleteFailed());
+    }
+
+    deleteImage(deletingImage) {
+        this.sto.refFromURL(deletingImage)
         .delete()
         .then(() => this.deleteSuccessful())
         .catch(() => this.deleteFailed());
@@ -95,17 +105,18 @@ class AdminRestaurantList extends Component {
             backgroundColor: '#FFFFFF',
             onClose: (secId, rowId, direction) => {
                 if(this.state.activeRowKey != null) {
-                    this.setState({ activeRowKey: null });
+                    this.setState({ activeRowKey: null, activeImage: null });
                 } 
             },          
             onOpen: (secId, rowId, direction) => {
-                this.setState({ activeRowKey: this.props.id });
+                this.setState({ activeRowKey: this.props.id, activeImage: this.props.restaurantImageUri });
             },      
             right: [
                 {   
                     onPress: () => {
-                        const deletingRow = this.state.activeRowKey;      
-                        this.confirmation(deletingRow);
+                        const deletingRow = this.state.activeRowKey;  
+                        const deletingImage = this.state.activeImage;    
+                        this.confirmation(deletingRow, deletingImage);
                     },
                     text: 'Delete', type: 'delete' 
                 }
@@ -121,13 +132,13 @@ class AdminRestaurantList extends Component {
             <View style={styles.columeContainer}>
                 <View style={styles.rowContainer}>
                     <Image
-                        source={{uri: this.props.restaurantImageUri}}
+                        source={{uri: this.props.restaurantImageUrl}}
                         style={styles.imageContainer}
                     />
 
                     <View style={styles.textContainer}>
                         <Text style={styles.titleContainer}>{this.props.restaurantName}</Text>
-                        <Text style={styles.subtitleContainer}>{this.props.restaurantEmail}</Text>
+                        <Text style={styles.subtitleContainer}>{this.props.restaurantDescription}</Text>
                     </View>
                 </View>
             </View>

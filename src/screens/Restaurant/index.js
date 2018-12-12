@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Dimensions, StyleSheet, View, Text, SafeAreaView, TextInput, Platform, StatusBar, ScrollView, Image } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import SearchBar from '../../components/SearchBar';
 import Category from '../../components/Restaurant/Category';
 import ShowRestaurant from '../../components/Restaurant/ShowRestaurant';
 
@@ -21,21 +22,25 @@ class Restaurant extends Component {
     }
   }
 
+  searchFilterFunction = search => {
+    // const newData = this.state.restaurants.filter(item => {
+    // const itemData = `${item.restaurantName.toUpperCase()}`;
+    // const textData = search.toUpperCase();
+    // return itemData.indexOf(textData) > -1;
+    // });
+    // this.setState({
+    //   restaurants: newData,
+    // });
+  };
+
   render() {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View style={{flex: 1}}>
 
-          <View style={styles.headerContainer}>
-            <View style={styles.searchBar}>
-              <Ionicons name="ios-search" size={30} style={styles.searchIcon}/>
-              <TextInput
-                underlineColorAndroid="transparent"
-                placeholder="Try Dean Cafe"
-                placeholderTextColor="grey"
-                style={styles.searchInput}/>
-            </View>
-          </View>
+          <SearchBar
+             onChangeText={search => this.searchFilterFunction(search)}
+          />  
 
           <ScrollView scrollEventThrottle={16}>
             <View style={styles.mainContainer}>

@@ -33,7 +33,6 @@ class AddRestaurant extends Component {
     super(props);
     this.state = {
       imageSource: null, 
-      imageUrl: '',
       restaurantName: '', 
       restaurantAddress: '',
       restaurantArea: '',
@@ -42,6 +41,7 @@ class AddRestaurant extends Component {
       restaurantPhone: '',
       restaurantType: '',
       restaurantEmail: '',
+      restaurantDescription: '',
       error: '',
       loading: false
     };
@@ -56,7 +56,7 @@ class AddRestaurant extends Component {
     const imageRef = firebase.storage().ref('restaurantImage').child(response.fileName);
     await imageRef.put(imageURI, {contentType: mime}).then(() => {
       let url = imageRef.getDownloadURL().then((url) => {
-        this.setState({imageUrl: url})
+        this.addData(url)
       })
     }).catch(error => {
       console.log(error);
@@ -69,7 +69,6 @@ class AddRestaurant extends Component {
         console.log('User cancelled image picker');
       } else {
         this.setState({imageSource: response})
-        this.uploadPhoto(response, mime = 'image/jpg')
       }
     })
   }
@@ -85,12 +84,13 @@ class AddRestaurant extends Component {
       !this.state.restaurantState ||
       !this.state.restaurantPhone || 
       !this.state.restaurantType || 
+      !this.state.restaurantDescription ||
       !this.state.restaurantEmail){
       return this.setState({error: 'Please fill in all the fields.', loading: false});
     }else if (this.state.imageSource === null){
       return this.setState({error: "Please select a restaurant's images.", loading: false});
     }return (
-      this.addData()
+      this.uploadPhoto(this.state.imageSource, mime = 'image/jpg')
     );
   }
 
@@ -104,9 +104,9 @@ class AddRestaurant extends Component {
       restaurantPhone: '',
       restaurantType: '',
       restaurantEmail: '',
+      restaurantDescription: '',
       imageSource: null,
-      loading: false,
-      imageUrl: ''
+      loading: false
     });
 
     Alert.alert(
@@ -120,7 +120,7 @@ class AddRestaurant extends Component {
     )
   }
 
-  addData() {
+  addData(url) {
     this.ref = firebase.firestore().collection('restaurants'); //addToDatabase
     this.ref.add({
       restaurantName : this.state.restaurantName,
@@ -131,7 +131,8 @@ class AddRestaurant extends Component {
       restaurantPhone : this.state.restaurantPhone,
       restaurantType : this.state.restaurantType,
       restaurantEmail : this.state.restaurantEmail,
-      restaurantImageUri : this.state.imageUrl
+      restaurantDescription : this.state.restaurantDescription,
+      restaurantImageUrl : url
     })
     .then(() => this.addSuccessful())
     .catch(() => this.addFailed());
@@ -229,6 +230,11 @@ class AddRestaurant extends Component {
             placeholder="Type"
             onChangeText={restaurantType => this.setState({ restaurantType })}
             value={this.state.restaurantType}
+          />
+          <Input
+            placeholder="Description"
+            onChangeText={restaurantDescription => this.setState({ restaurantDescription })}
+            value={this.state.restaurantDescription}
           />
           <Input
             placeholder="Email"
