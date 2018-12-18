@@ -12,21 +12,26 @@ import { createSwitchNavigator, createStackNavigator, createBottomTabNavigator }
 import firebase, { Firebase } from 'react-native-firebase';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+//initial
 import SignUp from './src/screens/SignUp';
 import Login from './src/screens/Login';
 import Initial from './src/screens/Initial';
 
+//customer
 import Promotion from './src/screens/Promotion/index';
 import Profile from './src/screens/Profile/index';
 import Food from './src/screens/Food/index';
 import Restaurant from './src/screens/Restaurant/index';
 
+//Customer's profile
 import MyBooking from './src/screens/Profile/MyBooking';
 import MyHistory from './src/screens/Profile/MyHistory';
 import MyFavourite from './src/screens/Profile/MyFavourite';
 
-import Menu from './src/screens/Menu/index';
+//Owner Menu Management
+import ManageMenu from './src/screens/ManageMenu/index';
 
+//Admin Restaurant Managment
 import ManageRestaurant from './src/screens/ManageRestaurant/index';
 import AddRestaurant from './src/screens/ManageRestaurant/AddRestaurant';
 import DeleteRestaurant from './src/screens/ManageRestaurant/DeleteRestaurant';
@@ -103,8 +108,8 @@ const Customer = createBottomTabNavigator({
 })
 
 const Owner = createBottomTabNavigator({
-  Menu: {
-    screen: Menu,
+  ManageMenu: {
+    screen: ManageMenu,
     navigationOptions: {
         tabBarLabel: 'Menu',
         tabBarIcon: ({ tintColor }) => (

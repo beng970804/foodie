@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View, Image, Alert, Keyboard} from 'react-native';
-import SplashScreen from 'react-native-splash-screen';
+import { StyleSheet, Text, View, Image, Alert, Keyboard} from 'react-native';
 import firebase, { firestore } from 'react-native-firebase';
 
 import { fonts, colors } from '../theme';
@@ -56,7 +55,7 @@ class Login extends React.Component {
     this.onLoginFail = this.onLoginFail.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
   }
-  state = { email: '', password: '', error: '', loading: false}
+  state = { email: '', password: '', error: '', loading: false, currentUser: null}
 
   handleLogin = () => {
     Keyboard.dismiss();
@@ -89,13 +88,32 @@ class Login extends React.Component {
   }
 
   onLoginSuccess() {
+    let uid = firebase.auth().currentUser.uid;
+    this.ref = firebase.firestore().collection('users').doc(uid);
+    var query = this.ref.get()
+    query.then((doc) => {
+      if (doc.exists) {
+        const value = doc.data().userType;
+        if (value == "Restaurant Owner") {
+          return this.props.navigation.navigate('ManageMenu')
+        } else if (value == "Customer") {
+          return this.props.navigation.navigate('Restaurant')
+        } else {
+          return this.props.navigation.navigate('ManageRestaurant')
+        }
+      } else {
+        console.log('No such doc exist')
+      }
+    })
+    .catch((error) => console.log(error))
+
     !this.isSuccussful && this.setState({
       email: '',
       password: '',
       loading: false,
       error: ''
     });
-    this.props.navigation.navigate('Restaurant');
+
     Alert.alert(
       'Login successfully'
     )

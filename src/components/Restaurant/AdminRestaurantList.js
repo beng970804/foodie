@@ -109,7 +109,7 @@ class AdminRestaurantList extends Component {
                 } 
             },          
             onOpen: (secId, rowId, direction) => {
-                this.setState({ activeRowKey: this.props.id, activeImage: this.props.restaurantImageUri });
+                this.setState({ activeRowKey: this.props.id, activeImage: this.props.restaurantImageUrl });
             },      
             right: [
                 {   

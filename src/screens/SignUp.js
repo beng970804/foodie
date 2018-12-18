@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, Alert, Keyboard, Picker } from 'react-native';
+import { StyleSheet, Text, View, Image, Alert, Keyboard } from 'react-native';
 import firebase, { firestore } from 'react-native-firebase';
 
 import { fonts, colors } from '../theme';
@@ -54,13 +54,14 @@ class SignUp extends React.Component {
     this.onSignUpFail = this.onSignUpFail.bind(this);
     this.onSignUpSuccess = this.onSignUpSuccess.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
+    this.checkEmail = this.checkEmail.bind(this);
   }
   
-  state = {username: '', email: '', password: '',password2: '', error: '', loading: false, PickerValue: 'Customer' }
+  state = {username: '', email: '', password: '',password2: '', error: '', loading: false, userType: ''}
 
   handleSignUp = () => {
     Keyboard.dismiss();
-    const {username, email, password, password2, PickerValue } = this.state;
+    const {username, email, password, password2} = this.state;
 
     this.setState({error: '', loading: true});
 
@@ -74,7 +75,7 @@ class SignUp extends React.Component {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(() => this.onSignUpSuccess())
+      .then(() => this.checkEmail())
       .catch(() => this.onSignUpFail())
     );
   }
@@ -97,6 +98,25 @@ class SignUp extends React.Component {
     this.isFailed = true;
   }
 
+  checkEmail() {
+    var resRef = firebase.firestore().collection('restaurants');
+    var resEmail = this.state.email;
+    var query = resRef.where("restaurantEmail", "==", resEmail)
+    query.get()
+    .then((doc) => {
+      if (doc.empty){
+        this.setState({userType: 'Customer'});
+        this.onSignUpSuccess();
+        return this.props.navigation.navigate('Restaurant')
+      } else {
+        this.setState({userType: 'Restaurant Owner'})
+        this.onSignUpSuccess();
+        return this.props.navigation.navigate('ManageMenu')
+      }
+    })
+    .catch((error) => console.log(error))
+  }
+
   onSignUpSuccess() {
     let uid = firebase.auth().currentUser.uid;
     this.ref = firebase.firestore().collection('users').doc(uid);
@@ -104,14 +124,8 @@ class SignUp extends React.Component {
       userName : this.state.username,
       userEmail : this.state.email,
       userId : uid,
-      userType : this.state.PickerValue
+      userType : this.state.userType
     });
-
-    if (this.state.PickerValue == 'Customer'){
-      return this.props.navigation.navigate('Restaurant');
-    }else {
-      return this.props.navigation.navigate('Menu')
-    }
 
     !this.isSuccussful && this.setState({
       username: '',
@@ -119,13 +133,13 @@ class SignUp extends React.Component {
       password: '',
       password2: '',
       loading: false,
-      error: '',
-      PickerValue: ''
+      error: ''
     });
 
     Alert.alert(
-      'Signup successfully'
-    )
+      'Signup Successfully',
+      'Welcome to be part of Foodie Family'
+  );
   }
 
   onSignUpFail() {
@@ -174,14 +188,6 @@ class SignUp extends React.Component {
             value={this.state.password2}
             secureTextEntry
           />
-          <Picker
-          style={{width:'80%'}}
-          selectedValue={this.state.PickerValue}
-          onValueChange={(itemValue,itemIndex) => this.setState({PickerValue:itemValue})}
-          >
-          <Picker.Item label="Customer" value="Customer" />
-          <Picker.Item label="Restaurant Owner" value="Restaurant Owner"/>
-          </Picker>
         </View>
 
         <Text style={styles.errorTextStyle}>{this.state.error}</Text>
