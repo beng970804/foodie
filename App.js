@@ -30,6 +30,9 @@ import MyFavourite from './src/screens/Profile/MyFavourite';
 
 //Owner Menu Management
 import ManageMenu from './src/screens/ManageMenu/index';
+import AddDishes from './src/screens/ManageMenu/AddDishes';
+import EditDishes from './src/screens/ManageMenu/EditDishes';
+import DeleteDishes from './src/screens/ManageMenu/DeleteDishes';
 
 //Admin Restaurant Managment
 import ManageRestaurant from './src/screens/ManageRestaurant/index';
@@ -129,6 +132,17 @@ const Owner = createBottomTabNavigator({
   } 
 })
 
+const OwnerScreen = new createSwitchNavigator ({
+  AddDishes: AddDishes, 
+  EditDishes: EditDishes,
+  DeleteDishes: DeleteDishes,
+},{
+  navigationOptions: {
+    header: null
+  },
+})
+
+
 const Admin = createBottomTabNavigator({
   ManageRestaurant: {
     screen: ManageRestaurant,
@@ -167,6 +181,7 @@ const AppStackNavigator = new createStackNavigator(
     Admin: Admin,
     Customer: Customer,
     AdminScreen: AdminScreen,
+    OwnerScreen: OwnerScreen,
     ProfileScreen: ProfileScreen
   },
   {

@@ -10,6 +10,9 @@ class ManageMenu extends Component {
     this.onLogoutSuccess = this.onLogoutSuccess.bind(this);
     this.onLogoutFail = this.onLogoutFail.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+    this.addDishes = this.addDishes.bind(this);
+    this.editDishes = this.editDishes.bind(this);
+    this.deleteDishes = this.deleteDishes.bind(this);
   }
   state = { currentUser: null}
 
@@ -42,6 +45,18 @@ class ManageMenu extends Component {
   onLogoutFail() {
     !this.isFailed && this.setState({error: 'Sign Out Failed'});
   }
+
+  addDishes() {
+    return this.props.navigation.navigate('AddDishes');
+  }
+
+  editDishes() {
+    return this.props.navigation.navigate('EditDishes');
+  }
+
+  deleteDishes() {
+    return this.props.navigation.navigate('DeleteDishes');
+  }
   
   render() {
     const { currentUser } = this.state
@@ -64,19 +79,26 @@ class ManageMenu extends Component {
             containerStyle = {{paddingBottom:20, paddingTop: 20}}
             title="Email"
             rightTitle={currentUser && currentUser.email}
-            hideChevron />
-            {/* <ListItem
+            hideChevron 
+            />
+            <ListItem
             containerStyle = {{paddingRight:35, paddingBottom:15, paddingTop: 15}}
-            title="Add Restaurant"
+            title="Add Dishes"
             rightIcon={<Ionicons name= "md-add-circle" size={30} color='grey'/>}
-            onPress={() => this.addRestaurantScreen()}
+            onPress={() => this.addDishes()}
             />
             <ListItem
             containerStyle = {{paddingRight:39, paddingBottom:15, paddingTop: 15}}
-            title="Delete Restaurant"
+            title="Edit Dishes"
+            rightIcon={<Ionicons name= "ios-document" size={30} color='grey'/>}
+            onPress={() => this.editDishes()}
+            />
+            <ListItem
+            containerStyle = {{paddingRight:39, paddingBottom:15, paddingTop: 15}}
+            title="Delete Dishes"
             rightIcon={<Ionicons name= "ios-trash" size={30} color='grey'/>}
-            onPress={() => this.deleteRestaurantScreen()}
-            /> */}
+            onPress={() => this.deleteDishes()}
+            />
             <ListItem
             containerStyle = {{paddingRight:35, paddingBottom:15, paddingTop: 15}}
             title="Log out"
