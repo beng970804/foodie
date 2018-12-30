@@ -46,7 +46,7 @@ const SearchBar = ({ onChangeText, ...props }) => (
             <Ionicons name="ios-search" size={30} style={[styles.searchIcon]}/>
             <TextInput
                 underlineColorAndroid="transparent"
-                placeholder="Try Dean Cafe"
+                placeholder="Search Here"
                 placeholderTextColor="grey"
                 style={[styles.searchInput]}
                 onChangeText={text => onChangeText(text)}

@@ -4,7 +4,7 @@ import firebase, { firestore } from 'react-native-firebase';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Spinner from '../../components/Spinner';
-import AdminRestaurantList from '../../components/Restaurant/AdminRestaurantList';
+import MenuDeleteList from '../../components/Restaurant/MenuDeleteList';
 import SearchBar from '../../components/SearchBar';
 
 const styles = StyleSheet.create({
@@ -16,15 +16,16 @@ const styles = StyleSheet.create({
   }
 })
 
-class DeleteRestaurant extends Component {
+class DeletePromotion extends Component {
   constructor(props) {
     super(props);
-    this.ref = firebase.firestore().collection('restaurants');
+    let uid = firebase.auth().currentUser.uid;
+    this.ref = firebase.firestore().collection('promotion').doc(uid).collection('ownerPromotion');
     this.unsubscribe = null;
 
     this.state = {
       loading: true,
-      restaurants: []
+      promotion: []
     };
   }
 
@@ -41,32 +42,32 @@ class DeleteRestaurant extends Component {
   } 
 
   onCollectionUpdate = (querySnapshot) => {
-    const restaurants = [];
+    const promotion = [];
     querySnapshot.forEach((doc) => {
-      const { restaurantName, restaurantDescription, restaurantImageUrl } = doc.data();
-      restaurants.push({
+      const { promotionName, promotionDescription, promotionImageUrl } = doc.data();
+      dishes.push({
         key: doc.id,
         id: doc.id,
         doc, // DocumentSnapshot
-        restaurantName,
-        restaurantDescription,
-        restaurantImageUrl
+        promotionName,
+        promotionDescription,
+        promotionImageUrl
       });
     });
     this.setState({ 
-      restaurants,
+      promotion,
       loading: false,
    });
   }
 
   searchFilterFunction = search => {
-    const newData = this.state.restaurants.filter(item => {
-    const itemData = `${item.restaurantName.toUpperCase()}`;
+    const newData = this.state.promotion.filter(item => {
+    const itemData = `${item.promotionName.toUpperCase()}`;
     const textData = search.toUpperCase();
     return itemData.indexOf(textData) > -1;
     });
     this.setState({
-      restaurants: newData,
+      promotion: newData,
     });
   };
 
@@ -83,12 +84,12 @@ class DeleteRestaurant extends Component {
              onChangeText={search => this.searchFilterFunction(search)}
           />       
           <FlatList 
-            data={this.state.restaurants}
-            renderItem={({ item, index }) => <AdminRestaurantList {...item} index={index} />}
+            data={this.state.promotion}
+            renderItem={({ item, index }) => <MenuDeleteList {...item} index={index} />}
           />
       </View>
     );
   }
 }
 
-export default DeleteRestaurant;
+export default DeletePromotion;

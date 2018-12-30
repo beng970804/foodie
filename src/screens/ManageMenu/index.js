@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { ScrollView } from 'react-native';
 import { Tile, List, ListItem} from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import firebase, { firestore } from 'react-native-firebase';
@@ -13,6 +13,8 @@ class ManageMenu extends Component {
     this.addDishes = this.addDishes.bind(this);
     this.editDishes = this.editDishes.bind(this);
     this.deleteDishes = this.deleteDishes.bind(this);
+    this.addPromotion = this.addPromotion.bind(this);
+    this.deletePromotion = this.deletePromotion.bind(this);
   }
   state = { currentUser: null}
 
@@ -57,11 +59,19 @@ class ManageMenu extends Component {
   deleteDishes() {
     return this.props.navigation.navigate('DeleteDishes');
   }
+
+  addPromotion() {
+    return this.props.navigation.navigate('AddPromotion');
+  }
+
+  deletePromotion() {
+    return this.props.navigation.navigate('DeletePromotion');
+  }
   
   render() {
     const { currentUser } = this.state
     return (
-      <View>
+      <ScrollView>
         <Tile
           imageSrc={require('../../assets/surface.jpg')}
           featured
@@ -100,13 +110,25 @@ class ManageMenu extends Component {
             onPress={() => this.deleteDishes()}
             />
             <ListItem
+            containerStyle = {{paddingRight:39, paddingBottom:15, paddingTop: 15}}
+            title="Add Promotion"
+            rightIcon={<Ionicons name= "md-add-circle" size={30} color='grey'/>}
+            onPress={() => this.addPromotion()}
+            />
+            <ListItem
+            containerStyle = {{paddingRight:39, paddingBottom:15, paddingTop: 15}}
+            title="Delete Promotion"
+            rightIcon={<Ionicons name= "ios-trash" size={30} color='grey'/>}
+            onPress={() => this.deletePromotion()}
+            />
+            <ListItem
             containerStyle = {{paddingRight:35, paddingBottom:15, paddingTop: 15}}
             title="Log out"
             rightIcon={<Ionicons name= "md-log-out" size={30} color='grey'/>}
             onPress={() => this.handleLogout()}
             />
         </List>
-      </View>
+      </ScrollView>
     );
   }
 }

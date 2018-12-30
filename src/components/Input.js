@@ -8,6 +8,7 @@ import { colors, fonts } from '../theme'
 
 const Input = ({ placeholder, onChangeText, type, ...props }) => (
   <TextInput
+    editable = {true}
     autoCapitalize='none'
     autoCorrect={false}
     style={[styles.input]}

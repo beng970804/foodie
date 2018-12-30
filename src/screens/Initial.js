@@ -34,7 +34,7 @@ class Initial extends Component {
           }else if (userType === 'Admin') {
             return this.props.navigation.navigate('ManageRestaurant')
           }else {
-            return this.props.navigation.navigate('Menu')
+            return this.props.navigation.navigate('ManageMenu')
           }
         })
       }

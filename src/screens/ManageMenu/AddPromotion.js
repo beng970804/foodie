@@ -28,19 +28,17 @@ const styles = StyleSheet.create({
   }
 })
 
-class AddDishes extends Component {
+class AddPromotion extends Component {
   constructor(props) {
     super(props);
     this.state = {
       imageSource: null, 
-      dishesName: '', 
-      dishesDescription: '',
-      dishesPrice: '',
-      dishesIngredients: '',
+      promotionName: '', 
+      promotionDescription: '',
       error: '',
       loading: false
     };
-    this.addMenu = this.addMenu.bind(this);
+    this.addPromotion = this.addPromotion.bind(this);
     this.showImagePicker = this.showImagePicker.bind(this);
     this.addData = this.addData.bind(this);
     this.addSuccessful = this.addSuccessful.bind(this);
@@ -49,7 +47,7 @@ class AddDishes extends Component {
 
   uploadPhoto = async (response, mime='application/octet-stream') => {
     const imageURI = Platform.OS === 'ios' ? response.uri.replace('file://', '') : response.uri;
-    const imageRef = firebase.storage().ref('menuImage').child(response.fileName);
+    const imageRef = firebase.storage().ref('promotionImage').child(response.fileName);
     await imageRef.put(imageURI, {contentType: mime}).then(() => {
       let url = imageRef.getDownloadURL().then((url) => {
         this.addData(url)
@@ -69,17 +67,15 @@ class AddDishes extends Component {
     })
   }
 
-  addMenu() {
+  addPromotion() {
     Keyboard.dismiss();
     this.setState({loading: true});
     if (
-      !this.state.dishesName || 
-      !this.state.dishesDescription ||
-      !this.state.dishesIngredients ||
-      !this.state.dishesPrice ){
+      !this.state.promotionName || 
+      !this.state.promotionDescription ){
       return this.setState({error: 'Please fill in all the fields.', loading: false});
     }else if (this.state.imageSource === null){
-      return this.setState({error: "Please select a dishes's images.", loading: false});
+      return this.setState({error: "Please select a promotion's images.", loading: false});
     }return (
       this.uploadPhoto(this.state.imageSource, mime = 'image/jpg')
     );
@@ -87,10 +83,8 @@ class AddDishes extends Component {
 
   addSuccessful() {
     !this.isSuccussful && this.setState({
-      dishesName: '',
-      dishesDescription: '',
-      dishesPrice: '',
-      dishesIngredients: '',
+      promotionName: '',
+      promotionDescription: '',
       imageSource: null,
       loading: false
     });
@@ -108,13 +102,11 @@ class AddDishes extends Component {
 
   addData(url) {
     let uid = firebase.auth().currentUser.uid;
-    this.ref = firebase.firestore().collection('menu').doc(uid).collection('food'); //addToDatabase
+    this.ref = firebase.firestore().collection('promotion').doc(uid).collection('ownerPromotion'); //addToDatabase
     this.ref.add({
-      dishesName : this.state.dishesName,
-      dishesDescription : this.state.dishesDescription,
-      dishesPrice : this.state.dishesPrice,
-      dishesIngredients : this.state.dishesIngredients,
-      foodImageUrl : url
+      promotionName : this.state.promotionName,
+      promotionDescription : this.state.promotionDescription,
+      promotionImageUrl : url
     })
     .then(() => this.addSuccessful())
     .catch(() => this.addFailed());
@@ -132,7 +124,7 @@ class AddDishes extends Component {
     }
     return(
       <Button 
-        title = "Add Dishes"
+        title = "Add Promotion"
         textStyle = {{
           color: colors.grey,
           fontWeight: '100',
@@ -145,7 +137,7 @@ class AddDishes extends Component {
           marginTop: 30,
           marginHorizontal: 70
         }}
-        onPress={() => this.addMenu()}
+        onPress={() => this.addPromotion()}
       />
     );
   }
@@ -161,7 +153,7 @@ class AddDishes extends Component {
         />  
 
         <Button 
-          title = "Select Dishes's Image"
+          title = "Select Promotion's Image"
           textStyle = {{
             color: colors.grey,
             fontWeight: '100',
@@ -179,24 +171,14 @@ class AddDishes extends Component {
 
         <View style={styles.inputContainer}>
           <Input
-            placeholder="Name"
-            onChangeText={dishesName => this.setState({ dishesName })}
-            value={this.state.dishesName}
+            placeholder="Promotion"
+            onChangeText={promotionName => this.setState({ promotionName })}
+            value={this.state.promotionName}
           />
           <Input
             placeholder="Description"
-            onChangeText={dishesDescription => this.setState({ dishesDescription })}
-            value={this.state.dishesDescription}
-          />
-          <Input
-            placeholder="Ingredients"
-            onChangeText={dishesIngredients => this.setState({ dishesIngredients })}
-            value={this.state.dishesIngredients}
-          />
-          <Input
-            placeholder="Price"
-            onChangeText={dishesPrice => this.setState({ dishesPrice })}
-            value={this.state.dishesPrice}
+            onChangeText={promotionDescription => this.setState({ promotionDescription })}
+            value={this.state.promotionDescription}
           />
         </View>
 
@@ -209,4 +191,4 @@ class AddDishes extends Component {
   }
 }
 
-export default AddDishes;
+export default AddPromotion;

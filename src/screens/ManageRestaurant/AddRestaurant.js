@@ -45,6 +45,7 @@ class AddRestaurant extends Component {
       error: '',
       loading: false
     };
+    this.addRestaurant = this.addRestaurant.bind(this);
     this.showImagePicker = this.showImagePicker.bind(this);
     this.addData = this.addData.bind(this);
     this.addSuccessful = this.addSuccessful.bind(this);
@@ -150,7 +151,7 @@ class AddRestaurant extends Component {
     }
     return(
       <Button 
-        title = "ADD RESTAURANT"
+        title = "Add Restaurant"
         textStyle = {{
           color: colors.grey,
           fontWeight: '100',

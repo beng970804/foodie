@@ -33,6 +33,8 @@ import ManageMenu from './src/screens/ManageMenu/index';
 import AddDishes from './src/screens/ManageMenu/AddDishes';
 import EditDishes from './src/screens/ManageMenu/EditDishes';
 import DeleteDishes from './src/screens/ManageMenu/DeleteDishes';
+import AddPromotion from './src/screens/ManageMenu/AddPromotion';
+import DeletePromotion from './src/screens/ManageMenu/DeletePromotion';
 
 //Admin Restaurant Managment
 import ManageRestaurant from './src/screens/ManageRestaurant/index';
@@ -114,7 +116,7 @@ const Owner = createBottomTabNavigator({
   ManageMenu: {
     screen: ManageMenu,
     navigationOptions: {
-        tabBarLabel: 'Menu',
+        tabBarLabel: 'ManageMenu',
         tabBarIcon: ({ tintColor }) => (
             <Ionicons name= "ios-restaurant" size={24} color={tintColor}/>
         )
@@ -136,6 +138,8 @@ const OwnerScreen = new createSwitchNavigator ({
   AddDishes: AddDishes, 
   EditDishes: EditDishes,
   DeleteDishes: DeleteDishes,
+  AddPromotion: AddPromotion,
+  DeletePromotion: DeletePromotion,
 },{
   navigationOptions: {
     header: null
