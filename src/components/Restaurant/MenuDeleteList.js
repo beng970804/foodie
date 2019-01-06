@@ -49,7 +49,7 @@ class MenuDeleteList extends Component {
             activeImage: null
         };   
         let uid = firebase.auth().currentUser.uid;
-        this.ref = firebase.firestore().collection('menu').doc(uid).collection('food');
+        this.ref = firebase.firestore().collection('menu');
         this.sto = firebase.storage();
         this.confirmation = this.confirmation.bind(this);  
         this.deleteDishes = this.deleteDishes.bind(this);  
@@ -75,14 +75,14 @@ class MenuDeleteList extends Component {
     deleteSuccessful() {
         Alert.alert(
             'Successful',
-            'The restaurant has been deleted successfully'
+            'The food has been deleted successfully'
         );
     }
 
     deleteFailed() {
         Alert.alert(
             'Failed',
-            'The restaurant is failed to be delete'
+            'The food is failed to be delete'
         );
     }
 

@@ -20,7 +20,7 @@ class DeleteDishes extends Component {
   constructor(props) {
     super(props);
     let uid = firebase.auth().currentUser.uid;
-    this.ref = firebase.firestore().collection('menu').doc(uid).collection('food');
+    this.ref = firebase.firestore().collection('menu');
     this.unsubscribe = null;
 
     this.state = {
@@ -30,7 +30,8 @@ class DeleteDishes extends Component {
   }
 
   componentDidMount() {
-    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+    let uid = firebase.auth().currentUser.uid;
+    this.unsubscribe = this.ref.where('userId', '==', uid).onSnapshot(this.onCollectionUpdate);
   }
 
   componentWillUnmount() {

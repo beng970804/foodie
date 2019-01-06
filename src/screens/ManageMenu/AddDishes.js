@@ -108,13 +108,14 @@ class AddDishes extends Component {
 
   addData(url) {
     let uid = firebase.auth().currentUser.uid;
-    this.ref = firebase.firestore().collection('menu').doc(uid).collection('food'); //addToDatabase
+    this.ref = firebase.firestore().collection('menu'); //addToDatabase
     this.ref.add({
+      userId: uid,
       dishesName : this.state.dishesName,
       dishesDescription : this.state.dishesDescription,
       dishesPrice : this.state.dishesPrice,
       dishesIngredients : this.state.dishesIngredients,
-      foodImageUrl : url
+      dishesImageUrl : url
     })
     .then(() => this.addSuccessful())
     .catch(() => this.addFailed());

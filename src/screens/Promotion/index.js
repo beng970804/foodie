@@ -1,74 +1,150 @@
 import React, { Component } from 'react';
-import { View, Text, Button, Image, StyleSheet } from 'react-native';
+import { View, StyleSheet, FlatList, Dimensions, StatusBar, Platform } from 'react-native';
 import firebase, { Firebase } from 'react-native-firebase';
-import ImagePicker, { showImagePicker } from "react-native-image-picker";
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import SearchBar from '../../components/SearchBar';
+import PromotionList from '../../components/Restaurant/PromotionList';
+
+const {height, width} = Dimensions.get('window')
+
+const styles = StyleSheet.create({
+  headerContainer: {
+    backgroundColor: 'white',
+    borderBottomWidth: 1,
+    borderBottomColor: '#dddddd',
+    height: this.startHeaderHeight
+  },
+  searchBar: {
+    flexDirection: 'row',
+    padding: 1,
+    backgroundColor: 'white',
+    marginHorizontal: 20,
+    shadowColor: 'black',
+    shadowOpacity: 0.2,
+    shadowOffset: {width: 0, height: 0},
+    elevation: 1,
+    marginTop: Platform.OS == 'android' ? 15 : null,
+    marginBottom: Platform.OS == 'android' ? 10 : null
+  },
+  searchIcon: {
+    marginRight: 15,
+    marginLeft: 15,
+    marginTop: 8
+  },
+  searchInput: {
+    flex: 1,
+    fontWeight: '700',
+    backgroundColor: 'white'
+  },
+  titleStyle: {
+    fontSize: 24,
+    fontWeight: '700',
+    paddingHorizontal: 20
+  },
+  mainContainer: {
+    flex: 1,
+    backgroundColor: 'white',
+    paddingTop: 20
+  }
+})
 
 class Promotion extends Component {
   constructor(props) {
     super(props);
-    this.state = {imageSource: null, imageName: null};
-    this.uploadImage = this.uploadImage.bind(this);
-    this.showImagePicker = this.showImagePicker.bind(this);
-    this.retrieveImage = this.retrieveImage.bind(this);
+    this.state = {
+
+    };
+    this.unsubscribe = null;
+    this.ref = firebase.firestore().collection('promotion');
+    this.getInfo = this.getInfo.bind(this);
   }
 
-  uploadImage = (event, event2) => {
-    let file = event.uri;
-    let storageRef = firebase.storage().ref(); 
-    var careerRef = storageRef.child("images/" + event2.name);
-    let snapshot = careerRef.put(file);
-    this.retrieveImage(snapshot);
-    // let file = event.target.files[0];
-    // let storageRef = firebase.storage().ref();
-    // var careerRef = storageRef.child("images/" + file.name);
-    // let snapshot = await careerRef.put(file);
-    // let url = await storageRef.child(snapshot.ref.fullPath).getDownloadURL();
+  componentDidMount() {
+    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
   }
 
-  async retrieveImage(imageRetrieved){
-    let url = await storageRef.child(snapshot.ref.fullPath).getDownloadURL();
-    console.log(url);
-  }
-
-  showImagePicker() {
-    ImagePicker.showImagePicker((response) => {
-      if (!response.didCancel) {
-        let source = {uri: response.uri}
-        let name = {name: response.fileName}
-        this.setState({imageSource: source, imageName: name})
-        this.uploadImage(this.state.imageSource, this.state.imageName)
+  componentWillUnmount() {
+      this.unsubscribe();
+      this.startHeaderHeight = 80;
+      if(Platform.OS == 'android'){
+        this.startHeaderHeight = 100 + StatusBar.currentHeight
       }
-    })
+  } 
+
+  getInfo() {
+    console.log(docd.id)
+      const { 
+        promotionName, 
+        promotionDescription, 
+        promotionImageUrl,
+        promotionOwner
+      } = docd.data();
+      restaurants.push({
+        key: doc.id,
+        id: doc.id,
+        doc, // DocumentSnapshot
+        promotionName,
+        promotionDescription,
+        promotionImageUrl,
+        promotionOwner
+      });
+      this.setState({ 
+        promotion
+      });
   }
+
+  onCollectionUpdate = (querySnapshot) => {
+    const promotion = [];
+    querySnapshot.forEach((doc) => {
+      console.log(doc)
+      this.ref.doc(doc.id).collection('ownerPromotion')
+      .get()
+      .then((docd) => this.getInfo(docd))
+      .catch((error) => console.log(error))
+      // const { 
+      //   promotionName, 
+      //   promotionDescription, 
+      //   promotionImageUrl 
+      // } = doc.data();
+      // restaurants.push({
+      //   key: doc.id,
+      //   id: doc.id,
+      //   doc, // DocumentSnapshot
+      //   promotionName,
+      //   promotionDescription,
+      //   promotionImageUrl
+      // });
+    });
+  //   this.setState({ 
+  //     promotion
+  //  });
+  }
+
+  searchFilterFunction = search => {
+    const newData = this.state.promotion.filter(item => {
+    const itemData = `${item.promotionName.toUpperCase()}`;
+    const textData = search.toUpperCase();
+    return itemData.indexOf(textData) > -1;
+    });
+    this.setState({
+      promotion: newData,
+    });
+  };
 
   render() {
     return (
-      <View style={styles.container}>
-        <Image style={styles.image} source={this.state.imageSource != null ? this.state.imageSource : require('../../assets/xImage.png')}/>
-         <Button
-          onPress={() => this.showImagePicker()}
-          title="Select Image"
-          />
-          <Button
-          onPress={() => this.uploadImage()}
-          title="Upload Image"
-          />
+      <View>
+        <SearchBar
+          onChangeText={search => this.searchFilterFunction(search)}
+        />   
+        <FlatList 
+          data={this.state.promotion}
+          renderItem={({ item, index }) => <PromotionList {...item} index={index} />}
+        />
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex:1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  image: {
-    width: 200,
-    height: 200,
-    marginTop: 30
-  }
-})
 
 export default Promotion;

@@ -35,13 +35,7 @@ const styles = StyleSheet.create({
     }
 })
 
-class PromotionDeleteList extends Component {
-    // toggle a todo as completed or not via update()
-    // toggleComplete() {
-    //     this.props.doc.ref.update({
-    //         complete: !this.props.complete,
-    //     });
-    // }
+class MenuList extends Component {
     constructor(props) {
         super(props);   
         this.state = {
@@ -49,13 +43,9 @@ class PromotionDeleteList extends Component {
             activeImage: null
         };   
         let uid = firebase.auth().currentUser.uid;
-        this.ref = firebase.firestore().collection('promotion');
+        this.ref = firebase.firestore().collection('menu').doc(uid).collection('food');
         this.sto = firebase.storage();
-        this.confirmation = this.confirmation.bind(this);  
-        this.deletePromotion = this.deletePromotion.bind(this);  
-        this.deleteSuccessful = this.deleteSuccessful.bind(this);
-        this.deleteFailed = this.deleteFailed.bind(this);   
-        this.deleteImage = this.deleteImage.bind(this);      
+        this.confirmation = this.confirmation.bind(this);   
     }
 
     confirmation(deletingRow, deletingImage) {
@@ -65,39 +55,11 @@ class PromotionDeleteList extends Component {
             [
                 {text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
                 {text: 'Yes', onPress: () => {        
-                  this.deletePromotion(deletingRow, deletingImage);
+                  this.deleteDishes(deletingRow, deletingImage);
                 }},
             ],
             { cancelable: true }
         );
-    }
-
-    deleteSuccessful() {
-        Alert.alert(
-            'Successful',
-            'The promotion has been deleted successfully'
-        );
-    }
-
-    deleteFailed() {
-        Alert.alert(
-            'Failed',
-            'The promotion is failed to be delete'
-        );
-    }
-
-    deletePromotion(deletingRow, deletingImage) {
-        this.ref.doc(deletingRow)
-        .delete()
-        .then(() => this.deleteImage(deletingImage))
-        .catch(() => this.deleteFailed());
-    }
-
-    deleteImage(deletingImage) {
-        this.sto.refFromURL(deletingImage)
-        .delete()
-        .then(() => this.deleteSuccessful())
-        .catch(() => this.deleteFailed());
     }
 
     render() { 
@@ -110,7 +72,7 @@ class PromotionDeleteList extends Component {
                 } 
             },          
             onOpen: (secId, rowId, direction) => {
-                this.setState({ activeRowKey: this.props.id, activeImage: this.props.promotionImageUrl });
+                this.setState({ activeRowKey: this.props.id, activeImage: this.props.dishesImageUrl });
             },      
             right: [
                 {   
@@ -119,34 +81,30 @@ class PromotionDeleteList extends Component {
                         const deletingImage = this.state.activeImage;    
                         this.confirmation(deletingRow, deletingImage);
                     },
-                    text: 'Delete', type: 'delete' 
+                    text: 'View',
                 }
             ], 
             rowId: this.props.index, 
             sectionId: 1   
         }; 
         return (
-        //   <TouchableHighlight
-        //     onPress={() => this.toggleComplete()}
-        //   >
         <Swipeout {...swipeSettings}>
             <View style={styles.columeContainer}>
                 <View style={styles.rowContainer}>
                     <Image
-                        source={{uri: this.props.promotionImageUrl}}
+                        source={{uri: this.props.dishesImageUrl}}
                         style={styles.imageContainer}
                     />
 
                     <View style={styles.textContainer}>
-                        <Text style={styles.titleContainer}>{this.props.promotionName}</Text>
-                        <Text style={styles.subtitleContainer}>{this.props.promotionDescription}</Text>
+                        <Text style={styles.titleContainer}>{this.props.dishesName}</Text>
+                        <Text style={styles.subtitleContainer}>{this.props.dishesDescription}</Text>
                     </View>
                 </View>
             </View>
         </Swipeout>
-        //</TouchableHighlight>
         );
     }
 }
 
-export default PromotionDeleteList;
+export default MenuList;

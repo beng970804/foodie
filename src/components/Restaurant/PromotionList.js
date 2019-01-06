@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, Alert } from 'react-native';
 import Swipeout from 'react-native-swipeout';
 import firebase, { firestore } from 'react-native-firebase';
+import Promotion from '../../screens/Promotion';
 
 const styles = StyleSheet.create({
     columeContainer: {
@@ -35,13 +36,8 @@ const styles = StyleSheet.create({
     }
 })
 
-class PromotionDeleteList extends Component {
-    // toggle a todo as completed or not via update()
-    // toggleComplete() {
-    //     this.props.doc.ref.update({
-    //         complete: !this.props.complete,
-    //     });
-    // }
+class PromotionList extends Component {
+    
     constructor(props) {
         super(props);   
         this.state = {
@@ -49,10 +45,10 @@ class PromotionDeleteList extends Component {
             activeImage: null
         };   
         let uid = firebase.auth().currentUser.uid;
-        this.ref = firebase.firestore().collection('promotion');
+        this.ref = firebase.firestore().collection('menu').doc(uid).collection('food');
         this.sto = firebase.storage();
         this.confirmation = this.confirmation.bind(this);  
-        this.deletePromotion = this.deletePromotion.bind(this);  
+        this.deleteDishes = this.deleteDishes.bind(this);  
         this.deleteSuccessful = this.deleteSuccessful.bind(this);
         this.deleteFailed = this.deleteFailed.bind(this);   
         this.deleteImage = this.deleteImage.bind(this);      
@@ -65,7 +61,7 @@ class PromotionDeleteList extends Component {
             [
                 {text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
                 {text: 'Yes', onPress: () => {        
-                  this.deletePromotion(deletingRow, deletingImage);
+                  this.deleteDishes(deletingRow, deletingImage);
                 }},
             ],
             { cancelable: true }
@@ -75,18 +71,18 @@ class PromotionDeleteList extends Component {
     deleteSuccessful() {
         Alert.alert(
             'Successful',
-            'The promotion has been deleted successfully'
+            'The restaurant has been deleted successfully'
         );
     }
 
     deleteFailed() {
         Alert.alert(
             'Failed',
-            'The promotion is failed to be delete'
+            'The restaurant is failed to be delete'
         );
     }
 
-    deletePromotion(deletingRow, deletingImage) {
+    deleteDishes(deletingRow, deletingImage) {
         this.ref.doc(deletingRow)
         .delete()
         .then(() => this.deleteImage(deletingImage))
@@ -115,20 +111,17 @@ class PromotionDeleteList extends Component {
             right: [
                 {   
                     onPress: () => {
-                        const deletingRow = this.state.activeRowKey;  
-                        const deletingImage = this.state.activeImage;    
-                        this.confirmation(deletingRow, deletingImage);
+                        const promotionRow = this.state.activeRowKey;  
+                        const promotionImage = this.state.activeImage;    
+                        this.confirmation(promotionRow, promotionImage);
                     },
-                    text: 'Delete', type: 'delete' 
+                    text: 'View'
                 }
             ], 
             rowId: this.props.index, 
             sectionId: 1   
         }; 
         return (
-        //   <TouchableHighlight
-        //     onPress={() => this.toggleComplete()}
-        //   >
         <Swipeout {...swipeSettings}>
             <View style={styles.columeContainer}>
                 <View style={styles.rowContainer}>
@@ -144,9 +137,8 @@ class PromotionDeleteList extends Component {
                 </View>
             </View>
         </Swipeout>
-        //</TouchableHighlight>
         );
     }
 }
 
-export default PromotionDeleteList;
+export default PromotionList;

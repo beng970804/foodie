@@ -4,7 +4,7 @@ import firebase, { firestore } from 'react-native-firebase';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Spinner from '../../components/Spinner';
-import MenuDeleteList from '../../components/Restaurant/MenuDeleteList';
+import PromotionDeleteList from '../../components/Restaurant/PromotionDeleteList';
 import SearchBar from '../../components/SearchBar';
 
 const styles = StyleSheet.create({
@@ -20,7 +20,7 @@ class DeletePromotion extends Component {
   constructor(props) {
     super(props);
     let uid = firebase.auth().currentUser.uid;
-    this.ref = firebase.firestore().collection('promotion').doc(uid).collection('ownerPromotion');
+    this.ref = firebase.firestore().collection('promotion');
     this.unsubscribe = null;
 
     this.state = {
@@ -30,7 +30,8 @@ class DeletePromotion extends Component {
   }
 
   componentDidMount() {
-    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+    let uid = firebase.auth().currentUser.uid;
+    this.unsubscribe = this.ref.where('userId', '==', uid).onSnapshot(this.onCollectionUpdate);
   }
 
   componentWillUnmount() {
@@ -45,7 +46,7 @@ class DeletePromotion extends Component {
     const promotion = [];
     querySnapshot.forEach((doc) => {
       const { promotionName, promotionDescription, promotionImageUrl } = doc.data();
-      dishes.push({
+      promotion.push({
         key: doc.id,
         id: doc.id,
         doc, // DocumentSnapshot
@@ -85,7 +86,7 @@ class DeletePromotion extends Component {
           />       
           <FlatList 
             data={this.state.promotion}
-            renderItem={({ item, index }) => <MenuDeleteList {...item} index={index} />}
+            renderItem={({ item, index }) => <PromotionDeleteList {...item} index={index} />}
           />
       </View>
     );

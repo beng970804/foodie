@@ -84,7 +84,7 @@ class MenuEditList extends Component {
             loading: false
         };   
         let uid = firebase.auth().currentUser.uid;
-        this.ref = firebase.firestore().collection('menu').doc(uid).collection('food');
+        this.ref = firebase.firestore().collection('menu');
         this.sto = firebase.storage();
         this.model = this.model.bind(this);  
         this.openModel = this.openModel.bind(this);
@@ -158,13 +158,11 @@ class MenuEditList extends Component {
     }
 
     editData() {
-        let uid = firebase.auth().currentUser.uid;
-        this.ref = firebase.firestore().collection('menu').doc(uid).collection('food'); //addToDatabase
+        this.ref = firebase.firestore().collection('menu'); //addToDatabase
         this.ref.where("dishesName","==",this.state.dishesName)
         .get()
         .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-                console.log(doc.id)
                 this.ref.doc(doc.id).update({
                     dishesDescription: this.state.dishesDescription,
                     dishesIngredients: this.state.dishesIngredients,
