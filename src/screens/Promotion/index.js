@@ -57,7 +57,6 @@ class Promotion extends Component {
     };
     this.unsubscribe = null;
     this.ref = firebase.firestore().collection('promotion');
-    this.getInfo = this.getInfo.bind(this);
   }
 
   componentDidMount() {
@@ -72,53 +71,26 @@ class Promotion extends Component {
       }
   } 
 
-  getInfo() {
-    console.log(docd.id)
+  onCollectionUpdate = (querySnapshot) => {
+    const promotion = [];
+    querySnapshot.forEach((doc) => {
       const { 
         promotionName, 
         promotionDescription, 
         promotionImageUrl,
-        promotionOwner
-      } = docd.data();
-      restaurants.push({
+      } = doc.data();
+      promotion.push({
         key: doc.id,
         id: doc.id,
         doc, // DocumentSnapshot
         promotionName,
         promotionDescription,
         promotionImageUrl,
-        promotionOwner
       });
-      this.setState({ 
-        promotion
-      });
-  }
-
-  onCollectionUpdate = (querySnapshot) => {
-    const promotion = [];
-    querySnapshot.forEach((doc) => {
-      console.log(doc)
-      this.ref.doc(doc.id).collection('ownerPromotion')
-      .get()
-      .then((docd) => this.getInfo(docd))
-      .catch((error) => console.log(error))
-      // const { 
-      //   promotionName, 
-      //   promotionDescription, 
-      //   promotionImageUrl 
-      // } = doc.data();
-      // restaurants.push({
-      //   key: doc.id,
-      //   id: doc.id,
-      //   doc, // DocumentSnapshot
-      //   promotionName,
-      //   promotionDescription,
-      //   promotionImageUrl
-      // });
     });
-  //   this.setState({ 
-  //     promotion
-  //  });
+    this.setState({ 
+      promotion
+   });
   }
 
   searchFilterFunction = search => {

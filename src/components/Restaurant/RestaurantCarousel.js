@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Image, Dimensions, TouchableHighlight, StyleSheet, Alert} from 'react-native';
-import { Button } from 'react-native-elements'
+import { Button } from 'react-native-elements';
 
 import Swipeout from 'react-native-swipeout';
 import firebase, { firestore } from 'react-native-firebase';

@@ -2,99 +2,142 @@ import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, Alert } from 'react-native';
 import Swipeout from 'react-native-swipeout';
 import firebase, { firestore } from 'react-native-firebase';
-import Promotion from '../../screens/Promotion';
+import Modal from 'react-native-modal';
+
+import Input from '../Input';
+import { fonts, colors } from '../../theme';
 
 const styles = StyleSheet.create({
-    columeContainer: {
-        flex: 1, 
-        flexDirection:'column',
-        borderWidth: 1,
-        borderTopColor: '#FFFFFF',
-        borderBottomColor: '#B9B9B9',
-    },
-    rowContainer: {
-        flex: 1, 
-        flexDirection:'row'
-    },
-    imageContainer: {
-        width: 100, 
-        height: 100, 
-        margin: 1,
-        margin: 5,
-        borderRadius: 5,
-    },
-    textContainer: {
-        flex: 1, 
-        flexDirection:'column', 
-        height: 100
-    },
-    titleContainer: {
-        fontSize: 25
-    },
-    subtitleContainer: {
-        
-    }
+columeContainer: {
+    flex: 1, 
+    flexDirection:'column',
+    borderWidth: 1,
+    borderTopColor: '#FFFFFF',
+    borderBottomColor: '#B9B9B9',
+},
+rowContainer: {
+    flex: 1, 
+    flexDirection:'row'
+},
+imageContainer: {
+    width: 100, 
+    height: 100, 
+    margin: 1,
+    margin: 5,
+    borderRadius: 5,
+},
+textContainer: {
+    flex: 1, 
+    flexDirection:'column', 
+    height: 100
+},
+titleContainer: {
+    fontSize: 25
+},
+subtitleContainer: {
+    
+},
+//Modal Style
+bottomModal: {
+    margin: 0,
+    marginHorizontal: 15
+  },
+  container: {
+    height: 200,
+    backgroundColor: "#FFFFFF",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  inputContainer: {
+    marginTop: 10,
+    justifyContent: 'center',
+  }  
 })
 
 class PromotionList extends Component {
-    
     constructor(props) {
         super(props);   
         this.state = {
             activeRowKey: null,
-            activeImage: null
+            activeImage: null,
+            isModalVisible: false,
+            restaurantUserId: '',
+            restaurantEmail: '',
+            restaurantName: '',
+            promotionName: '',
+            promotionDescription: ''
         };   
-        let uid = firebase.auth().currentUser.uid;
-        this.ref = firebase.firestore().collection('menu').doc(uid).collection('food');
-        this.sto = firebase.storage();
-        this.confirmation = this.confirmation.bind(this);  
-        this.deleteDishes = this.deleteDishes.bind(this);  
-        this.deleteSuccessful = this.deleteSuccessful.bind(this);
-        this.deleteFailed = this.deleteFailed.bind(this);   
-        this.deleteImage = this.deleteImage.bind(this);      
+        this.ref = firebase.firestore().collection('promotion');
+        this.ref2 = firebase.firestore().collection('restaurants');
+        this.ref3 = firebase.firestore().collection('users');
+        this.model = this.model.bind(this);  
+        this.openModel = this.openModel.bind(this);
+        this.getRestaurantEmail = this.getRestaurantEmail.bind(this);
+        this.getRestaurantName = this.getRestaurantName.bind(this); 
     }
 
-    confirmation(deletingRow, deletingImage) {
-        Alert.alert(
-            'Alert',
-            'Are you sure you want to delete?',
-            [
-                {text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-                {text: 'Yes', onPress: () => {        
-                  this.deleteDishes(deletingRow, deletingImage);
-                }},
-            ],
-            { cancelable: true }
-        );
+    model(promotionRow, promotionImage) {
+        this.ref.doc(promotionRow)
+        .get()
+        .then((doc) => {
+            const { 
+                promotionName, 
+                promotionDescription, 
+                userId 
+            } = doc.data();
+            this.setState({
+                promotionName: promotionName,
+                promotionDescription: promotionDescription,
+                restaurantUserId: userId, 
+            })
+            this.getRestaurantEmail();
+        })
+        .catch((error) => console.log(error));
     }
 
-    deleteSuccessful() {
-        Alert.alert(
-            'Successful',
-            'The restaurant has been deleted successfully'
-        );
+    getRestaurantEmail() {
+        this.ref3.doc(this.state.restaurantUserId)
+        .get()
+        .then((doc) => {
+            const { 
+                userEmail, 
+            } = doc.data();
+            this.setState({
+                restaurantEmail: userEmail
+            })
+            this.getRestaurantName();
+        })
+        .catch((error) => console.log(error))
     }
 
-    deleteFailed() {
-        Alert.alert(
-            'Failed',
-            'The restaurant is failed to be delete'
-        );
+    getRestaurantName() {
+        this.ref2.where('restaurantEmail','==',this.state.restaurantEmail )
+        .get()
+        .then((snapshot) => {
+            snapshot.docs.forEach((doc) => {
+            const { 
+                restaurantName, 
+            } = doc.data();
+            this.setState({
+                restaurantName: restaurantName
+            })
+            this.openModel();
+            })
+        })
+        .catch((error) => console.log(error))
     }
 
-    deleteDishes(deletingRow, deletingImage) {
-        this.ref.doc(deletingRow)
-        .delete()
-        .then(() => this.deleteImage(deletingImage))
-        .catch(() => this.deleteFailed());
+    openModel() {
+        this.setState({
+            isModalVisible: !this.state.isModalVisible 
+        })  
     }
 
-    deleteImage(deletingImage) {
-        this.sto.refFromURL(deletingImage)
-        .delete()
-        .then(() => this.deleteSuccessful())
-        .catch(() => this.deleteFailed());
-    }
+    handleOnScroll = event => {
+        this.setState({
+          scrollOffset: event.nativeEvent.contentOffset.y
+        });
+    };
 
     render() { 
         const swipeSettings = {
@@ -113,7 +156,7 @@ class PromotionList extends Component {
                     onPress: () => {
                         const promotionRow = this.state.activeRowKey;  
                         const promotionImage = this.state.activeImage;    
-                        this.confirmation(promotionRow, promotionImage);
+                        this.model(promotionRow, promotionImage);
                     },
                     text: 'View'
                 }
@@ -121,23 +164,66 @@ class PromotionList extends Component {
             rowId: this.props.index, 
             sectionId: 1   
         }; 
-        return (
-        <Swipeout {...swipeSettings}>
-            <View style={styles.columeContainer}>
-                <View style={styles.rowContainer}>
-                    <Image
-                        source={{uri: this.props.promotionImageUrl}}
-                        style={styles.imageContainer}
-                    />
+        if (this.state.isModalVisible == true) {
+            return (
+                <Modal
+                    isVisible={this.state.isModalVisible}
+                    onSwipe={() => this.setState({ isModalVisible: false })}
+                    swipeDirection="down"
+                    // scrollTo={this.handleScrollTo}
+                    scrollOffset={this.state.scrollOffset}
+                    scrollOffsetMax={400 - 100} // content height - ScrollView height
+                    style={styles.bottomModal}
+                >
 
-                    <View style={styles.textContainer}>
-                        <Text style={styles.titleContainer}>{this.props.promotionName}</Text>
-                        <Text style={styles.subtitleContainer}>{this.props.promotionDescription}</Text>
+                    <View style={styles.container}>
+                        <View 
+                        ref={ref => (this.scrollViewRef = ref)}
+                        onScroll={this.handleOnScroll}
+                        scrollEventThrottle={16}
+                        >
+
+                            <View style={styles.inputContainer}>
+                                <Input
+                                    editable = {false}
+                                    onChangeText={restaurantName => this.setState({ restaurantName })}
+                                    value={this.state.restaurantName}
+                                />
+                                <Input
+                                    editable = {false}
+                                    onChangeText={promotionName => this.setState({ promotionName })}
+                                    value={this.state.promotionName}
+                                />
+                                <Input
+                                    editable = {false}
+                                    onChangeText={promotionDescription => this.setState({ promotionDescription })}
+                                    value={this.state.promotionDescription}
+                                />
+                            </View>
+
+                        </View>
                     </View>
-                </View>
-            </View>
-        </Swipeout>
-        );
+                </Modal>
+            )
+        } else {
+            return (
+                <Swipeout {...swipeSettings}>
+                    <View style={styles.columeContainer}>
+                        <View style={styles.rowContainer}>
+                            <Image
+                                source={{uri: this.props.promotionImageUrl}}
+                                style={styles.imageContainer}
+                            />
+        
+                            <View style={styles.textContainer}>
+                                <Text style={styles.titleContainer}>{this.props.promotionName}</Text>
+                                <Text style={styles.subtitleContainer}>{this.props.promotionDescription}</Text>
+                            </View>
+                        </View>
+                    </View>
+                </Swipeout>
+            );
+        }
     }
 }
 

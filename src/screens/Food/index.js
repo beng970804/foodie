@@ -71,51 +71,36 @@ class Food extends Component {
   } 
 
   onCollectionUpdate = (querySnapshot) => {
-    const dishes = [];
-    const subCollection = [];
+    const menu = [];
     querySnapshot.forEach((doc) => {
-      subCollection.push(doc.id);
-      for (let i = 0; i < subCollection.length; i++){
-        this.ref.doc(subCollection[i]).collection('food').onSnapshot(this.collectionUpdate)
-      }
-    });
-  }
-
-  collectionUpdate = (querySnap) => {
-    const dishes = [];
-    querySnap.forEach((doc) => {
       const { 
-          dishesName, 
-          dishesDescription, 
-          dishesIngredients, 
-          dishesImageUrl,
-          dishesPrice
-        } = doc.data();
-        dishes.push({
-          key: doc.id,
-          id: doc.id,
-          doc,
-          dishesName, 
-          dishesDescription, 
-          dishesIngredients, 
-          dishesImageUrl,
-          dishesPrice
-        });
-      this.setState({ 
-          dishes
-      })
-    })
+        dishesName,
+        dishesPrice,
+        dishesImageUrl
+      } = doc.data();
+      menu.push({
+        key: doc.id,
+        id: doc.id,
+        doc, // DocumentSnapshot
+        dishesName,
+        dishesPrice,
+        dishesImageUrl
+      });
+    });
+    this.setState({ 
+      menu
+   });
   }
 
   searchFilterFunction = search => {
-    // const newData = this.state.dishes.filter(item => {
-    // const itemData = `${item.dishesName.toUpperCase()}`;
-    // const textData = search.toUpperCase();
-    // return itemData.indexOf(textData) > -1;
-    // });
-    // this.setState({
-    //   dishes: newData,
-    // });
+    const newData = this.state.menu.filter(item => {
+    const itemData = `${item.dishesName.toUpperCase()}`;
+    const textData = search.toUpperCase();
+    return itemData.indexOf(textData) > -1;
+    });
+    this.setState({
+      dishes: newData,
+    });
   };
 
   render() {
@@ -125,7 +110,7 @@ class Food extends Component {
           onChangeText={search => this.searchFilterFunction(search)}
         />       
         <FlatList 
-          data={this.state.dishes}
+          data={this.state.menu}
           renderItem={({ item, index }) => <MenuList {...item} index={index} />}
         />
       </View>

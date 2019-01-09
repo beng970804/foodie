@@ -105,7 +105,6 @@ class AddPromotion extends Component {
     this.ref = firebase.firestore().collection('promotion'); //addToDatabase
     this.ref.add({
       userId: uid,
-      promotionOwner: uid,
       promotionName : this.state.promotionName,
       promotionDescription : this.state.promotionDescription,
       promotionImageUrl : url
