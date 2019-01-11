@@ -79,11 +79,12 @@ class RestaurantCarousel extends Component {
       restaurantZipCode: '',
     };
     this.ref = firebase.firestore().collection('restaurants');
+    this.ref2 = firebase.firestore().collection('reservation');
     this.model = this.model.bind(this);  
     this.openModel = this.openModel.bind(this);
     this.navigateBooking = this.navigateBooking.bind(this);
     this.confirmation = this.confirmation.bind(this);
-    this.makeBooking = this.makeBooking.bind(this);
+    // this.makeBooking = this.makeBooking.bind(this);
     // this.bookedFailed = this.bookedFailed.bind(this);
     this.bookedSuccessful = this.bookedSuccessful.bind(this);
   }
@@ -163,21 +164,10 @@ navigateBooking = () => {
 }
 
 confirmation() {
-  this.ref.where("restaurantName","==",this.state.restaurantName)
-  .get()
-  .then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-        this.makeBooking(doc);
-      });   
-    })
-  .catch((error) => console.log(error));
-  // .catch(() => this.bookedFailed())
-}
-
-makeBooking(doc) {
-  let uid = firebase.auth().currentUser.uid;
-  this.ref.doc(doc.id).collection('booking').add({
-    customerID: uid,
+  let userEmail = firebase.auth().currentUser.email;
+  this.ref2.add({
+    customerEmail: userEmail,
+    restaurantEmail: this.state.restaurantEmail
   })
   .then(() => this.bookedSuccessful())
   .catch((error) => console.log(error))

@@ -35,6 +35,8 @@ import EditDishes from './src/screens/ManageMenu/EditDishes';
 import DeleteDishes from './src/screens/ManageMenu/DeleteDishes';
 import AddPromotion from './src/screens/ManageMenu/AddPromotion';
 import DeletePromotion from './src/screens/ManageMenu/DeletePromotion';
+import ManageOrdering from './src/screens/ManageMenu/ManageOrdering';
+import ManageBooking from './src/screens/ManageMenu/ManageBooking';
 
 //Admin Restaurant Managment
 import ManageRestaurant from './src/screens/ManageRestaurant/index';
@@ -140,6 +142,8 @@ const OwnerScreen = new createSwitchNavigator ({
   DeleteDishes: DeleteDishes,
   AddPromotion: AddPromotion,
   DeletePromotion: DeletePromotion,
+  ManageBooking: ManageBooking,
+  ManageOrdering: ManageOrdering,
 },{
   navigationOptions: {
     header: null

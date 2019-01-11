@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
 class EditDishes extends Component {
   constructor(props) {
     super(props);
-    let uid = firebase.auth().currentUser.uid;
     this.ref = firebase.firestore().collection('menu');
     this.unsubscribe = null;
 

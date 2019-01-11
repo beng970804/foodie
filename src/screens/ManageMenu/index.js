@@ -15,6 +15,8 @@ class ManageMenu extends Component {
     this.deleteDishes = this.deleteDishes.bind(this);
     this.addPromotion = this.addPromotion.bind(this);
     this.deletePromotion = this.deletePromotion.bind(this);
+    this.manageBooking = this.manageBooking.bind(this);
+    this.manageOrdering = this.manageOrdering.bind(this);
   }
   state = { currentUser: null}
 
@@ -67,6 +69,14 @@ class ManageMenu extends Component {
   deletePromotion() {
     return this.props.navigation.navigate('DeletePromotion');
   }
+
+  manageBooking() {
+    return this.props.navigation.navigate('ManageBooking');
+  }
+
+  manageOrdering() {
+    return this.props.navigation.navigate('ManageOrdering');
+  }
   
   render() {
     const { currentUser } = this.state
@@ -86,47 +96,53 @@ class ManageMenu extends Component {
 
         <List containerStyle={{paddingHorizontal: 15}}>
           <ListItem
-            containerStyle = {{paddingBottom:20, paddingTop: 20}}
-            title="Email"
-            rightTitle={currentUser && currentUser.email}
-            hideChevron 
-            />
-            <ListItem
+            containerStyle = {{paddingRight:35, paddingBottom:15, paddingTop: 15}}
+            title="Manage Reservation"
+            rightIcon={<Ionicons name= "ios-restaurant" size={30} color='grey'/>}
+            onPress={() => this.manageBooking()}
+          />
+          <ListItem
+            containerStyle = {{paddingRight:35, paddingBottom:15, paddingTop: 15}}
+            title="Manage Ordering"
+            rightIcon={<Ionicons name= "ios-pizza" size={30} color='grey'/>}
+            onPress={() => this.manageOrdering()}
+          />
+          <ListItem
             containerStyle = {{paddingRight:35, paddingBottom:15, paddingTop: 15}}
             title="Add Dishes"
             rightIcon={<Ionicons name= "md-add-circle" size={30} color='grey'/>}
             onPress={() => this.addDishes()}
-            />
-            <ListItem
+          />
+          <ListItem
             containerStyle = {{paddingRight:39, paddingBottom:15, paddingTop: 15}}
             title="Edit Dishes"
             rightIcon={<Ionicons name= "ios-document" size={30} color='grey'/>}
             onPress={() => this.editDishes()}
-            />
-            <ListItem
+          />
+          <ListItem
             containerStyle = {{paddingRight:39, paddingBottom:15, paddingTop: 15}}
             title="Delete Dishes"
             rightIcon={<Ionicons name= "ios-trash" size={30} color='grey'/>}
             onPress={() => this.deleteDishes()}
-            />
-            <ListItem
+          />
+          <ListItem
             containerStyle = {{paddingRight:39, paddingBottom:15, paddingTop: 15}}
             title="Add Promotion"
             rightIcon={<Ionicons name= "md-add-circle" size={30} color='grey'/>}
             onPress={() => this.addPromotion()}
-            />
-            <ListItem
+          />
+          <ListItem
             containerStyle = {{paddingRight:39, paddingBottom:15, paddingTop: 15}}
             title="Delete Promotion"
             rightIcon={<Ionicons name= "ios-trash" size={30} color='grey'/>}
             onPress={() => this.deletePromotion()}
-            />
-            <ListItem
+          />
+          <ListItem
             containerStyle = {{paddingRight:35, paddingBottom:15, paddingTop: 15}}
             title="Log out"
             rightIcon={<Ionicons name= "md-log-out" size={30} color='grey'/>}
             onPress={() => this.handleLogout()}
-            />
+          />
         </List>
       </ScrollView>
     );
