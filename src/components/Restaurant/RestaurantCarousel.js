@@ -47,7 +47,7 @@ bottomModal: {
   marginHorizontal: 10
 },
 container: {
-  height: 600,
+  height: 650,
   backgroundColor: "#FFFFFF",
   alignItems: "center",
   justifyContent: "center"

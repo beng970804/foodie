@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 15
     },
     container: {
-        height: 300,
+        height: 400,
         backgroundColor: "#FFFFFF",
         alignItems: "center",
         justifyContent: "center"
@@ -64,6 +64,7 @@ class MenuList extends Component {
             isModalVisible: false,
             restaurantUserId: '',
             restaurantName: '',
+            restaurantEmail: '',
             dishesName: '',
             dishesPrice: '',
             dishesIngredients: '',
@@ -72,13 +73,13 @@ class MenuList extends Component {
         this.ref = firebase.firestore().collection('menu');
         this.ref2 = firebase.firestore().collection('restaurants');
         this.ref3 = firebase.firestore().collection('users');
+        this.ref4 = firebase.firestore().collection('foodOrder');
         this.viewMenu = this.viewMenu.bind(this);   
         this.getRestaurantEmail = this.getRestaurantEmail.bind(this);
         this.getRestaurantName = this.getRestaurantName.bind(this); 
         this.openModel = this.openModel.bind(this);
         this.navigateOrdering = this.navigateOrdering.bind(this);
         this.confirmation = this.confirmation.bind(this);
-        this.makeOrdering = this.makeOrdering.bind(this);
         this.orderedSuccessful = this.orderedSuccessful.bind(this);
     }
 
@@ -162,23 +163,21 @@ class MenuList extends Component {
     }
 
     confirmation() {
-        this.ref.where("dishesName","==",this.state.dishesName)
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-              this.makeOrdering(doc);
-            });   
-          })
-        .catch((error) => console.log(error));
-    }
-
-    makeOrdering(doc) {
-        let uid = firebase.auth().currentUser.uid;
-        this.ref.doc(doc.id).collection('booking').add({
-          customerID: uid,
+        let userEmail = firebase.auth().currentUser.email;
+        this.ref4.add({
+            customerEmail: userEmail,
+            orderedFood: this.state.dishesName,
+            restaurantEmail: this.state.restaurantEmail
         })
         .then(() => this.orderedSuccessful())
         .catch((error) => console.log(error))
+        // .get()
+        // .then((querySnapshot) => {
+        //   querySnapshot.forEach((doc) => {
+        //       this.makeOrdering(doc);
+        //     });   
+        //   })
+        // .catch((error) => console.log(error));
     }
 
     //not working but successfully save to database
@@ -235,6 +234,11 @@ class MenuList extends Component {
                         >
 
                             <View style={styles.inputContainer}>
+                                <Input
+                                    editable = {false}
+                                    onChangeText={restaurantName => this.setState({ restaurantName })}
+                                    value={this.state.restaurantName}
+                                />
                                 <Input
                                     editable = {false}
                                     onChangeText={dishesName => this.setState({ dishesName })}
