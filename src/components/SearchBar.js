@@ -4,10 +4,10 @@ import {
   TextInput,
   View,
   Platform
-} from 'react-native'
+} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import { colors, fonts } from '../theme'
+import { colors, fonts } from '../theme';
 
 const styles = StyleSheet.create({
     headerContainer: {

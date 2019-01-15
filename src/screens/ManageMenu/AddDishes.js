@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Image, Alert, Keyboard, Platform } from 'react-native'
-import firebase, { firestore } from 'react-native-firebase'
-import { Tile, Button } from 'react-native-elements'
-import ImagePicker, { showImagePicker } from "react-native-image-picker"
+import { StyleSheet, Text, View, ScrollView, Image, Alert, Keyboard, Platform } from 'react-native';
+import firebase, { firestore } from 'react-native-firebase';
+import { Tile, Button } from 'react-native-elements';
+import ImagePicker, { showImagePicker } from 'react-native-image-picker';
 
-import { fonts, colors } from '../../theme'
-import Input from '../../components/Input'
-import Spinner from '../../components/Spinner'
+import { fonts, colors } from '../../theme';
+import Input from '../../components/Input';
+import Spinner from '../../components/Spinner';
 
 const options = {
   title: 'Select Image'

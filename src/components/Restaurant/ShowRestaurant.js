@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
+});
+
 class ShowRestaurant extends Component {
   constructor(props) {
     super(props);
@@ -31,13 +39,5 @@ class ShowRestaurant extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
-});
 
 export default ShowRestaurant;

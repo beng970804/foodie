@@ -1,15 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-
-class MyBooking extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text> MyBooking </Text>
-      </View>
-    );
-  }
-}
+import firebase, { firestore } from 'react-native-firebase';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,4 +11,14 @@ const styles = StyleSheet.create({
   }
 })
 
-export default MyBooking;
+class MyOrdering extends Component {
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text> MyOrdering </Text>
+      </View>
+    );
+  }
+}
+
+export default MyOrdering;

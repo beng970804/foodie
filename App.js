@@ -24,7 +24,7 @@ import Food from './src/screens/Food/index';
 import Restaurant from './src/screens/Restaurant/index';
 
 //Customer's profile
-import MyBooking from './src/screens/Profile/MyBooking';
+import MyOrdering from './src/screens/Profile/MyOrdering';
 import MyHistory from './src/screens/Profile/MyHistory';
 import MyFavourite from './src/screens/Profile/MyFavourite';
 
@@ -56,7 +56,7 @@ const AuthState = new createStackNavigator ({
 })
 
 const ProfileScreen = new createSwitchNavigator ({
-  MyBooking: MyBooking, 
+  MyOrdering: MyOrdering, 
   MyFavourite: MyFavourite,
   MyHistory: MyHistory
 },{

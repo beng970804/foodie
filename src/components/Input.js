@@ -2,9 +2,20 @@ import React from 'react'
 import {
   StyleSheet,
   TextInput
-} from 'react-native'
+} from 'react-native';
 
-import { colors, fonts } from '../theme'
+import { colors, fonts } from '../theme';
+
+const styles = StyleSheet.create({
+  input: {
+    height: 45,
+    marginBottom: 15,
+    borderBottomWidth: 1.5,
+    fontSize: 16,
+    borderBottomColor: colors.primary,
+    fontFamily: fonts.light
+  }
+})
 
 const Input = ({ placeholder, onChangeText, type, ...props }) => (
   <TextInput
@@ -19,16 +30,5 @@ const Input = ({ placeholder, onChangeText, type, ...props }) => (
     {...props}
   />
 )
-
-const styles = StyleSheet.create({
-  input: {
-    height: 45,
-    marginBottom: 15,
-    borderBottomWidth: 1.5,
-    fontSize: 16,
-    borderBottomColor: colors.primary,
-    fontFamily: fonts.light
-  }
-})
 
 export default Input;

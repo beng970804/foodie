@@ -47,8 +47,8 @@ class Profile extends Component {
     !this.isFailed && this.setState({error: 'Sign Out Failed'});
   }
 
-  MyBookingScreen() {
-    this.props.navigation.navigate('MyBooking')
+  MyOrderingScreen() {
+    this.props.navigation.navigate('MyOrdering')
   }
 
   MyHistoryScreen() {
@@ -83,9 +83,9 @@ class Profile extends Component {
             hideChevron />
             <ListItem
             containerStyle = {{paddingRight:35, paddingBottom:15, paddingTop: 15}}
-            title="My booking"
+            title="My ordering"
             rightIcon={<Ionicons name= "ios-checkmark-circle-outline" size={30} color='grey'/>}
-            onPress={this.MyBookingScreen.bind(this)}
+            onPress={this.MyOrderingScreen.bind(this)}
             />
             <ListItem
             containerStyle = {{paddingRight:35, paddingBottom:15, paddingTop: 15}}

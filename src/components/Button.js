@@ -5,19 +5,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator
-} from 'react-native'
+} from 'react-native';
 
-import { fonts, colors } from '../theme'
-
-const Button = ({onPress, children, styleButton}) => {
-  return(
-  <TouchableOpacity style={styleButton} onPress={onPress}>
-    <View style={styles.button}>
-      <Text style={[styles.buttonText]}>{children}</Text>
-    </View>
-  </TouchableOpacity>
-  );
-};
+import { fonts, colors } from '../theme';
 
 const styles = StyleSheet.create({
   button: {
@@ -31,5 +21,15 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5
   }
 })
+
+const Button = ({onPress, children, styleButton}) => {
+  return(
+  <TouchableOpacity style={styleButton} onPress={onPress}>
+    <View style={styles.button}>
+      <Text style={[styles.buttonText]}>{children}</Text>
+    </View>
+  </TouchableOpacity>
+  );
+};
 
 export default Button;
