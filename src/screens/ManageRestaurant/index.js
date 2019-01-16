@@ -12,6 +12,7 @@ class ManageRestaurant extends Component {
     this.handleLogout = this.handleLogout.bind(this);
     this.addRestaurantScreen = this.addRestaurantScreen.bind(this);
     this.deleteRestaurantScreen = this.deleteRestaurantScreen.bind(this);
+    this.archiveScreen = this.archiveScreen.bind(this);
   }
   state = { currentUser: null}
 
@@ -52,6 +53,10 @@ class ManageRestaurant extends Component {
   deleteRestaurantScreen() {
     return this.props.navigation.navigate('DeleteRestaurant')
   }
+
+  archiveScreen() {
+    return this.props.navigation.navigate('ArchiveRestaurant')
+  }
   
   render() {
     const { currentUser } = this.state
@@ -86,6 +91,12 @@ class ManageRestaurant extends Component {
             title="Delete Restaurant"
             rightIcon={<Ionicons name= "ios-trash" size={30} color='grey'/>}
             onPress={() => this.deleteRestaurantScreen()}
+            />
+            <ListItem
+            containerStyle = {{paddingRight:33, paddingBottom:15, paddingTop: 15}}
+            title="Archive"
+            rightIcon={<Ionicons name= "ios-folder" size={30} color='grey'/>}
+            onPress={() => this.archiveScreen()}
             />
             <ListItem
             containerStyle = {{paddingRight:35, paddingBottom:15, paddingTop: 15}}

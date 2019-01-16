@@ -46,15 +46,26 @@ class AdminRestaurantList extends Component {
         super(props);   
         this.state = {
             activeRowKey: null,
-            activeImage: null
+            activeImage: null,
+            restaurantName: '', 
+            restaurantAddress: '',
+            restaurantArea: '',
+            restaurantZipCode: '',
+            restaurantState: '',
+            restaurantPhone: '',
+            restaurantType: '',
+            restaurantEmail: '',
+            restaurantDescription: '',
+            restaurantImageUrl: ''
         };   
         this.ref = firebase.firestore().collection('restaurants');
-        this.sto = firebase.storage();
+        this.ref2 = firebase.firestore().collection('archive');
         this.confirmation = this.confirmation.bind(this);  
         this.deleteRestaurant = this.deleteRestaurant.bind(this);  
         this.deleteSuccessful = this.deleteSuccessful.bind(this);
         this.deleteFailed = this.deleteFailed.bind(this);   
-        this.deleteImage = this.deleteImage.bind(this);      
+        this.archiveRestaurant = this.archiveRestaurant.bind(this);  
+        this.addToArchive = this.addToArchive.bind(this);
     }
 
     confirmation(deletingRow, deletingImage) {
@@ -64,11 +75,64 @@ class AdminRestaurantList extends Component {
             [
                 {text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
                 {text: 'Yes', onPress: () => {        
-                  this.deleteRestaurant(deletingRow, deletingImage);
+                  this.archiveRestaurant(deletingRow, deletingImage);
                 }},
             ],
             { cancelable: true }
         );
+    }
+
+    archiveRestaurant(deletingRow, deletingImage) {
+        this.ref.doc(deletingRow)
+        .get()
+        .then((doc) => {
+            const restaurants = [];
+            const { 
+                restaurantName, 
+                restaurantAddress,
+                restaurantArea,
+                restaurantDescription,
+                restaurantEmail,
+                restaurantPhone,
+                restaurantZipCode,
+                restaurantType, 
+                restaurantState, 
+                restaurantImageUrl 
+            } = doc.data();
+
+            this.setState({
+                restaurantName : restaurantName,
+                restaurantAddress : restaurantAddress,
+                restaurantArea : restaurantArea,
+                restaurantZipCode : restaurantZipCode,
+                restaurantState : restaurantState,
+                restaurantPhone : restaurantPhone,
+                restaurantType : restaurantType,
+                restaurantEmail : restaurantEmail,
+                restaurantDescription : restaurantDescription,
+                restaurantImageUrl : restaurantImageUrl
+            })
+
+            this.addToArchive(deletingRow);
+        })
+        .catch((error) => console.log(error));
+    }
+
+    addToArchive(deletingRow) {
+        this.ref2.add({
+            restaurantName : this.state.restaurantName,
+            restaurantAddress : this.state.restaurantAddress,
+            restaurantArea : this.state.restaurantArea,
+            restaurantZipCode : this.state.restaurantZipCode,
+            restaurantState : this.state.restaurantState,
+            restaurantPhone : this.state.restaurantPhone,
+            restaurantType : this.state.restaurantType,
+            restaurantEmail : this.state.restaurantEmail,
+            restaurantDescription : this.state.restaurantDescription,
+            restaurantImageUrl : this.state.restaurantImageUrl
+        })
+        .then(() => this.deleteRestaurant(deletingRow))
+        .catch((error) => console.log(error));
     }
 
     deleteSuccessful() {
@@ -85,15 +149,8 @@ class AdminRestaurantList extends Component {
         );
     }
 
-    deleteRestaurant(deletingRow, deletingImage) {
+    deleteRestaurant(deletingRow) {
         this.ref.doc(deletingRow)
-        .delete()
-        .then(() => this.deleteImage(deletingImage))
-        .catch(() => this.deleteFailed());
-    }
-
-    deleteImage(deletingImage) {
-        this.sto.refFromURL(deletingImage)
         .delete()
         .then(() => this.deleteSuccessful())
         .catch(() => this.deleteFailed());

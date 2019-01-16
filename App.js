@@ -42,6 +42,7 @@ import ManageBooking from './src/screens/ManageMenu/ManageBooking';
 import ManageRestaurant from './src/screens/ManageRestaurant/index';
 import AddRestaurant from './src/screens/ManageRestaurant/AddRestaurant';
 import DeleteRestaurant from './src/screens/ManageRestaurant/DeleteRestaurant';
+import ArchiveRestaurant from './src/screens/ManageRestaurant/ArchiveRestaurant';
 
 import { colors } from './src/theme';
 
@@ -176,6 +177,7 @@ const Admin = createBottomTabNavigator({
 const AdminScreen = new createSwitchNavigator ({
   AddRestaurant: AddRestaurant, 
   DeleteRestaurant: DeleteRestaurant,
+  ArchiveRestaurant: ArchiveRestaurant,
 },{
   navigationOptions: {
     header: null

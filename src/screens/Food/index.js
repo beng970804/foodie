@@ -108,7 +108,17 @@ class Food extends Component {
       <View>
         <SearchBar
           onChangeText={search => this.searchFilterFunction(search)}
-        />       
+        />  
+
+        <View style={{marginVertical: 20, paddingHorizontal: 20}}>
+          <Text style={{fontSize: 24, fontWeight: '700'}}>
+            Introducing FoodieOrdering
+          </Text>
+          <Text style={{fontWeight: '100', marginTop: 10}}>
+            Order your desired food before you reach
+          </Text> 
+        </View> 
+
         <FlatList 
           data={this.state.menu}
           renderItem={({ item, index }) => <MenuList {...item} index={index} />}

@@ -195,7 +195,17 @@ class Restaurant extends Component {
       <View>
           <SearchBar
              onChangeText={search => this.searchFilterFunction(search)}
-          />       
+          />   
+
+          <View style={{marginVertical: 20, paddingHorizontal: 20}}>
+            <Text style={{fontSize: 24, fontWeight: '700'}}>
+              Introducing FoodieReservation
+            </Text>
+            <Text style={{fontWeight: '100', marginTop: 10}}>
+              Reserve your desired restaurant before you reach
+            </Text> 
+          </View>  
+
           <FlatList 
             data={this.state.restaurants}
             renderItem={({ item, index }) => <RestaurantCarousel {...item} index={index} />}
