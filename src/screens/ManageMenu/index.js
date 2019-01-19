@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, Alert } from 'react-native';
 import { Tile, List, ListItem} from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import firebase, { firestore } from 'react-native-firebase';
@@ -17,6 +17,7 @@ class ManageMenu extends Component {
     this.deletePromotion = this.deletePromotion.bind(this);
     this.manageBooking = this.manageBooking.bind(this);
     this.manageOrdering = this.manageOrdering.bind(this);
+    this.logout = this.logout.bind(this);
   }
   state = { currentUser: null}
 
@@ -31,6 +32,18 @@ class ManageMenu extends Component {
   }
 
   handleLogout = () => {
+    Alert.alert(
+      'Are you sure?',
+      'Do you want to logout?',
+      [
+        {text: 'Logout', onPress: () => this.logout()},
+        {text: 'Cancel', onPress: () => console.log('Cancel Pressed')},
+      ],
+      { cancelable: false }
+    )
+  }
+
+  logout = () => {
     this.setState({error: ''});
     firebase
       .auth()

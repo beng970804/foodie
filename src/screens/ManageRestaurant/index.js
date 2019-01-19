@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, ALert } from 'react-native';
 import { Tile, List, ListItem} from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import firebase, { firestore } from 'react-native-firebase';
@@ -13,6 +13,7 @@ class ManageRestaurant extends Component {
     this.addRestaurantScreen = this.addRestaurantScreen.bind(this);
     this.deleteRestaurantScreen = this.deleteRestaurantScreen.bind(this);
     this.archiveScreen = this.archiveScreen.bind(this);
+    this.logout = this.logout.bind(this);
   }
   state = { currentUser: null}
 
@@ -27,6 +28,18 @@ class ManageRestaurant extends Component {
   }
 
   handleLogout = () => {
+    Alert.alert(
+      'Are you sure?',
+      'Do you want to logout?',
+      [
+        {text: 'Logout', onPress: () => this.logout()},
+        {text: 'Cancel', onPress: () => console.log('Cancel Pressed')},
+      ],
+      { cancelable: false }
+    )
+  }
+
+  logout = () => {
     this.setState({error: ''});
     firebase
       .auth()

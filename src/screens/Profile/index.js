@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, FlatList, Linking } from 'react-native';
+import { ScrollView, FlatList, Linking, Alert } from 'react-native';
 import { Tile, List, ListItem} from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import firebase, { firestore } from 'react-native-firebase';
@@ -13,6 +13,7 @@ class Profile extends Component {
     this.onLogoutSuccess = this.onLogoutSuccess.bind(this);
     this.onLogoutFail = this.onLogoutFail.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+    this.logout = this.logout.bind(this);
   }
   state = { currentUser: null}
 
@@ -27,6 +28,18 @@ class Profile extends Component {
   }
 
   handleLogout = () => {
+    Alert.alert(
+      'Are you sure?',
+      'Do you want to logout?',
+      [
+        {text: 'Logout', onPress: () => this.logout()},
+        {text: 'Cancel', onPress: () => console.log('Cancel Pressed')},
+      ],
+      { cancelable: false }
+    )
+  }
+
+  logout = () => {
     this.setState({error: ''});
 
     firebase
@@ -87,7 +100,7 @@ class Profile extends Component {
             rightIcon={<Ionicons name= "ios-checkmark-circle-outline" size={30} color='grey'/>}
             onPress={this.MyOrderingScreen.bind(this)}
             />
-            <ListItem
+            {/* <ListItem
             containerStyle = {{paddingRight:35, paddingBottom:15, paddingTop: 15}}
             title="My history"
             rightIcon={<Ionicons name= "md-time" size={30} color='grey'/>}
@@ -98,7 +111,7 @@ class Profile extends Component {
             title="My favourite"
             rightIcon={<Ionicons name= "ios-heart-empty" size={30} color='grey'/>}
             onPress={this.MyFavouriteScreen.bind(this)}
-            />
+            /> */}
             {/* <ListItem
             containerStyle = {{paddingRight:35, paddingBottom:15, paddingTop: 15}}
             title="Invite friends"
