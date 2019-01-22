@@ -3,7 +3,7 @@ import { View, Text, FlatList, StyleSheet, Platform, StatusBar } from 'react-nat
 import firebase, { firestore } from 'react-native-firebase';
 
 import Spinner from '../../components/Spinner';
-import BookingList from '../../components/Restaurant/BookingList';
+import ReservationList from '../../components/Restaurant/ReservationList';
 
 const styles = StyleSheet.create({
   container: {
@@ -41,12 +41,13 @@ class ManageBooking extends Component {
   onCollectionUpdate = (querySnapshot) => {
     const reservation = [];
     querySnapshot.forEach((doc) => {
-      const { customerEmail } = doc.data();
+      const { customerEmail, reservationDate } = doc.data();
       reservation.push({
         key: doc.id,
         id: doc.id,
         doc, // DocumentSnapshot
-        customerEmail
+        customerEmail,
+        reservationDate,
       });
     });
     this.setState({ 
@@ -66,7 +67,7 @@ class ManageBooking extends Component {
       <View>      
         <FlatList 
           data={this.state.reservation}
-          renderItem={({ item, index }) => <BookingList {...item} index={index} />}
+          renderItem={({ item, index }) => <ReservationList {...item} index={index} />}
         />
       </View>
     );

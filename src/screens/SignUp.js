@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, Alert, Keyboard } from 'react-native';
 import firebase, { firestore } from 'react-native-firebase';
+import ButtonComponent, { CircleButton, RoundButton, RectangleButton } from 'react-native-button-component';
 
 import { fonts, colors } from '../theme';
-import Button from '../components/Button';
 import Input from '../components/Input';
 import Spinner from '../components/Spinner';
 
@@ -12,8 +12,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   headingImage: {
-    width: 38,
-    height: 38
+    width: 45,
+    height: 45
   },
   container: {
     flex: 1,
@@ -24,7 +24,8 @@ const styles = StyleSheet.create({
   greeting: {
     marginTop: 20,
     fontSize: 24,
-    fontFamily: fonts.light
+    fontFamily: fonts.bold,
+    color: colors.primary,
   },
   greeting2: {
     color: '#666',
@@ -39,12 +40,6 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     marginTop: 20
-  },
-  loginStyle: {
-    color: '#F5F5F5',
-    fontFamily: fonts.light,
-    fontSize: 12,
-    letterSpacing: 0.5
   }
 })
 
@@ -87,9 +82,18 @@ class SignUp extends React.Component {
       )
     }
     return(
-      <Button onPress={() => this.handleSignUp()}>
-          Sign Up
-      </Button>
+      <ButtonComponent
+          buttonStyle={{marginTop: 15}}
+          text="Sign Up"
+          type="primary"
+          shape="round"
+          backgroundColors={['#ff1493', '#ff72be']}
+          gradientStart={{ x: 0.5, y: 1 }}
+          gradientEnd={{ x: 1, y: 1 }}
+          height={65}
+          onPress={() => this.handleSignUp()}
+        >
+      </ButtonComponent>
     );
   }
 
@@ -194,9 +198,18 @@ class SignUp extends React.Component {
           
         {this.renderButton()}
 
-        <Button styleButton={styles.loginStyle} onPress={() => this.props.navigation.navigate('Login')}>
-          Have an account? Sign In
-        </Button>
+        <ButtonComponent
+          buttonStyle={{marginTop: 15}}
+          text="Have an account? Sign In"
+          type="primary"
+          shape="round"
+          backgroundColors={['#ff1493', '#ff72be']}
+          gradientStart={{ x: 0.5, y: 1 }}
+          gradientEnd={{ x: 1, y: 1 }}
+          height={65}
+          onPress={() => this.props.navigation.navigate('Login')}
+        >
+        </ButtonComponent>
 
       </View>
     )

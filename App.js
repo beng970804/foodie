@@ -23,10 +23,13 @@ import Profile from './src/screens/Profile/index';
 import Food from './src/screens/Food/index';
 import Restaurant from './src/screens/Restaurant/index';
 
-//Customer's profile
-import MyOrdering from './src/screens/Profile/MyOrdering';
-import MyHistory from './src/screens/Profile/MyHistory';
-import MyFavourite from './src/screens/Profile/MyFavourite';
+import RestaurantDetails from './src/screens/Restaurant/RestaurantDetails';
+import ReservationDetails from './src/screens/Restaurant/ReservationDetails';
+
+import FoodDetails from './src/screens/Food/FoodDetails';
+import OrderingDetails from './src/screens/Food/OrderingDetails';
+
+import PromotionDetails from './src/screens/Promotion/PromotionDetails';
 
 //Owner Menu Management
 import ManageMenu from './src/screens/ManageMenu/index';
@@ -56,10 +59,26 @@ const AuthState = new createStackNavigator ({
   }
 })
 
-const ProfileScreen = new createSwitchNavigator ({
-  MyOrdering: MyOrdering, 
-  MyFavourite: MyFavourite,
-  MyHistory: MyHistory
+const RestaurantScreen = new createSwitchNavigator ({
+  RestaurantDetails: RestaurantDetails,
+  ReservationDetails: ReservationDetails,
+},{
+  navigationOptions: {
+    header: null
+  },
+})
+
+const FoodScreen = new createSwitchNavigator ({
+  FoodDetails: FoodDetails,
+  OrderingDetails: OrderingDetails
+},{
+  navigationOptions: {
+    header: null
+  },
+})
+
+const PromotionScreen = new createSwitchNavigator ({
+  PromotionDetails: PromotionDetails
 },{
   navigationOptions: {
     header: null
@@ -192,7 +211,9 @@ const AppStackNavigator = new createStackNavigator(
     Customer: Customer,
     AdminScreen: AdminScreen,
     OwnerScreen: OwnerScreen,
-    ProfileScreen: ProfileScreen
+    RestaurantScreen: RestaurantScreen,
+    FoodScreen: FoodScreen,
+    PromotionScreen: PromotionScreen,
   },
   {
     initialRouteName: 'AuthState',

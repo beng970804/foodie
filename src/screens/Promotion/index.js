@@ -1,62 +1,56 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, FlatList, Dimensions, StatusBar, Platform } from 'react-native';
-import firebase, { Firebase } from 'react-native-firebase';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { StyleSheet, View, ScrollView, Text, Platform, StatusBar, Dimensions, ImageBackground, FlatList } from 'react-native';
+import firebase from 'react-native-firebase';
 
 import SearchBar from '../../components/SearchBar';
-import PromotionList from '../../components/Restaurant/PromotionList';
-
-const {height, width} = Dimensions.get('window')
 
 const styles = StyleSheet.create({
-  headerContainer: {
-    backgroundColor: 'white',
-    borderBottomWidth: 1,
-    borderBottomColor: '#dddddd',
-    height: this.startHeaderHeight
-  },
-  searchBar: {
+  container: {
+    flex: 1,
     flexDirection: 'row',
-    padding: 1,
-    backgroundColor: 'white',
+    marginTop: 20,
     marginHorizontal: 20,
-    shadowColor: 'black',
-    shadowOpacity: 0.2,
-    shadowOffset: {width: 0, height: 0},
-    elevation: 1,
-    marginTop: Platform.OS == 'android' ? 15 : null,
-    marginBottom: Platform.OS == 'android' ? 10 : null
   },
-  searchIcon: {
-    marginRight: 15,
-    marginLeft: 15,
-    marginTop: 8
+  GridViewContainer: {
+    flex:1,    
+    height: 200,
+    marginRight: 5,
+    paddingBottom: 5,
   },
-  searchInput: {
-    flex: 1,
-    fontWeight: '700',
-    backgroundColor: 'white'
+  GridViewTextLayout: {
+    // fontWeight: 'bold',
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 25
   },
-  titleStyle: {
-    fontSize: 24,
-    fontWeight: '700',
-    paddingHorizontal: 20
+  imageContainer: {
+    flexGrow:1,
+    height:null,
+    width:null,
+    alignItems: 'center',
+    justifyContent:'center',
   },
-  mainContainer: {
-    flex: 1,
-    backgroundColor: 'white',
-    paddingTop: 20
+  imageStyles: {
+    opacity: 0.9,
+    borderRadius: 10,
+  },
+  textContainer: {
+    borderRadius: 5,
+    backgroundColor: 'rgba(0,0,0,.5)'
   }
-})
+});
+
+const {height, width} = Dimensions.get('window')
 
 class Promotion extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      items: []
     };
     this.unsubscribe = null;
     this.ref = firebase.firestore().collection('promotion');
+    this.viewPromotion = this.viewPromotion.bind(this);
   }
 
   componentDidMount() {
@@ -64,57 +58,89 @@ class Promotion extends Component {
   }
 
   componentWillUnmount() {
-      this.unsubscribe();
-      this.startHeaderHeight = 80;
-      if(Platform.OS == 'android'){
-        this.startHeaderHeight = 100 + StatusBar.currentHeight
-      }
+    this.unsubscribe();
+    this.startHeaderHeight = 80;
+    if(Platform.OS == 'android'){
+      this.startHeaderHeight = 100 + StatusBar.currentHeight
+    }
   } 
 
   onCollectionUpdate = (querySnapshot) => {
-    const promotion = [];
+    const items = [];
     querySnapshot.forEach((doc) => {
       const { 
         promotionName, 
-        promotionDescription, 
-        promotionImageUrl,
+        promotionImageUrl 
       } = doc.data();
-      promotion.push({
+      items.push({
         key: doc.id,
         id: doc.id,
         doc, // DocumentSnapshot
-        promotionName,
-        promotionDescription,
-        promotionImageUrl,
+        promotionName, 
+        promotionImageUrl 
       });
     });
     this.setState({ 
-      promotion
+      items
    });
   }
 
   searchFilterFunction = search => {
-    const newData = this.state.promotion.filter(item => {
+    const newData = this.state.items.filter(item => {
     const itemData = `${item.promotionName.toUpperCase()}`;
     const textData = search.toUpperCase();
     return itemData.indexOf(textData) > -1;
     });
     this.setState({
-      promotion: newData,
+      items: newData,
     });
   };
 
+  viewPromotion(item) {
+    this.props.navigation.navigate('PromotionDetails', {promotionName: item})
+  }
+
   render() {
     return (
-      <View>
+      <ScrollView>
         <SearchBar
           onChangeText={search => this.searchFilterFunction(search)}
-        />   
-        <FlatList 
-          data={this.state.promotion}
-          renderItem={({ item, index }) => <PromotionList {...item} index={index} />}
-        />
-      </View>
+        />  
+
+        <View style={{marginTop: 10, paddingHorizontal: 20}}>
+          <Text style={{fontSize: 24, fontWeight: '700'}}>
+            Introducing FoodiePromotion
+          </Text>
+          <Text style={{fontWeight: '100', marginTop: 10}}>
+            Save you some bucks when show our application to the restaurant
+          </Text> 
+        </View> 
+
+        <View  style={styles.container}>
+          <FlatList
+            data={ this.state.items }
+            renderItem={ ({item}) =>
+              <View style={styles.GridViewContainer}>
+                <ImageBackground
+                  source={{uri: item.promotionImageUrl}}
+                  style={styles.imageContainer}
+                  imageStyle={styles.imageStyles}>
+
+                    <View style={styles.textContainer} >
+                      <Text 
+                        style={styles.GridViewTextLayout} 
+                        onPress={this.viewPromotion.bind(this, item.promotionName)} > {item.promotionName} 
+                      </Text>
+                    </View>
+
+                </ImageBackground>
+              </View> 
+            }
+            numColumns={1}
+          />
+        </View>
+ 
+      </ScrollView>
     );
   }
 }

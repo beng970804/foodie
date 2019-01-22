@@ -59,20 +59,20 @@ const styles = StyleSheet.create({
 })
 
 var screen = Dimensions.get('window');
-class OrderingList extends Component {
+class ReservationList extends Component {
     constructor(props) {
         super(props);   
         this.state = {
             activeRowKey: null,
             isModalVisible: false,
             customerEmail: '',
-            orderedFood: '',
-            orderedOption: '',
-            orderedRemarks: '',
-            orderedTime: '',
+            reservationDate: '',
+            reservationPax: '',
+            reservationRemarks: '',
+            reservationTime: '',
         };
-        this.ref = firebase.firestore().collection('foodOrder');
-        this.deleteOrdering = this.deleteOrdering.bind(this);
+        this.ref = firebase.firestore().collection('reservation');
+        this.deleteReservation = this.deleteReservation.bind(this);
         this.confirmation = this.confirmation.bind(this);
         this.deleteSuccessful = this.deleteSuccessful.bind(this);
         this.deleteFailed = this.deleteFailed.bind(this); 
@@ -87,14 +87,14 @@ class OrderingList extends Component {
             [
                 {text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
                 {text: 'Yes', onPress: () => {        
-                  this.deleteOrdering(deletingRow);
+                  this.deleteReservation(deletingRow);
                 }},
             ],
             { cancelable: true }
         );
     }
 
-    deleteOrdering(deletingRow) {
+    deleteReservation(deletingRow) {
         this.ref.doc(deletingRow)
         .delete()
         .then(() => this.deleteSuccessful())
@@ -104,14 +104,14 @@ class OrderingList extends Component {
     deleteSuccessful() {
         Alert.alert(
             'Successful',
-            'The order has been deleted successfully'
+            'The reservation has been deleted successfully'
         );
     }
 
     deleteFailed() {
         Alert.alert(
             'Failed',
-            'The order is failed to be delete'
+            'The reservation is failed to be delete'
         );
     }
 
@@ -120,18 +120,18 @@ class OrderingList extends Component {
         .get()
         .then((doc) => {
             const { 
-                orderedFood,
                 customerEmail,
-                orderedOption,
-                orderedRemarks,
-                orderedTime
+                reservationDate,
+                reservationPax,
+                reservationRemarks,
+                reservationTime 
             } = doc.data();
             this.setState({
-                orderedFood: orderedFood,
                 customerEmail: customerEmail,
-                orderedOption: orderedOption,
-                orderedRemarks: orderedRemarks,
-                orderedTime: orderedTime,
+                reservationDate: reservationDate,
+                reservationPax: reservationPax,
+                reservationRemarks: reservationRemarks,
+                reservationTime: reservationTime, 
             })
 
             this.openModel();
@@ -206,30 +206,30 @@ class OrderingList extends Component {
 
                         <View style={styles.modelContainer}>
                             <Text style={styles.subtitleContainer}>
-                                Ordered Food {'\n'}
+                                Reserved Date {'\n'}
                             </Text>
                             <Text style={styles.body}>
-                                {this.state.orderedFood}
+                                {this.state.reservationDate}
                             </Text>      
                         </View>
                         <View style = {styles.lineStyle} />
 
                         <View style={styles.modelContainer}>
                             <Text style={styles.subtitleContainer}>
-                                Ordered Option {'\n'}
+                                Reserved Time {'\n'}
                             </Text>
                             <Text style={styles.body}>
-                                {this.state.orderedOption}
+                                {this.state.reservationTime}
                             </Text>      
                         </View>
                         <View style = {styles.lineStyle} />
 
                         <View style={styles.modelContainer}>
                             <Text style={styles.subtitleContainer}>
-                                Expected Time Arrival {'\n'}
+                                Reserved Pax {'\n'}
                             </Text>
                             <Text style={styles.body}>
-                                {this.state.orderedTime} 
+                                {this.state.reservationPax} person
                             </Text>      
                         </View>
                         <View style = {styles.lineStyle} />
@@ -239,7 +239,7 @@ class OrderingList extends Component {
                                 Remarks {'\n'}
                             </Text>
                             <Text style={styles.body}>
-                                {this.state.orderedRemarks} 
+                                {this.state.reservationRemarks} 
                             </Text>      
                         </View>
                         <View style = {styles.lineStyle} />
@@ -255,7 +255,7 @@ class OrderingList extends Component {
                         <View style={styles.rowContainer}>
                             <View style={styles.textContainer}>
                                 <Text style={styles.titleContainer}>{this.props.customerEmail}</Text>
-                                <Text style={styles.subtitleContainer}>{this.props.orderedFood}</Text>
+                                <Text style={styles.subtitleContainer}>{this.props.reservationDate}</Text>
                             </View>
                         </View>
                     </View>
@@ -265,4 +265,4 @@ class OrderingList extends Component {
     }
 }
 
-export default OrderingList;
+export default ReservationList;

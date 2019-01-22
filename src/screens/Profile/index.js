@@ -59,18 +59,6 @@ class Profile extends Component {
   onLogoutFail() {
     !this.isFailed && this.setState({error: 'Sign Out Failed'});
   }
-
-  MyOrderingScreen() {
-    this.props.navigation.navigate('MyOrdering')
-  }
-
-  MyHistoryScreen() {
-    this.props.navigation.navigate('MyHistory')
-  }
-
-  MyFavouriteScreen() {
-    this.props.navigation.navigate('MyFavourite')
-  }
   
   render() {
     const { currentUser } = this.state
@@ -81,7 +69,6 @@ class Profile extends Component {
           featured
           containerStyle = {{height: 240}}
           imageContainerStyle = {{height: 259}}
-          // title={`${name.first.toUpperCase()} ${name.last.toUpperCase()}`}
           title="Welcome"
           titleStyle = {{ justifyContent: 'center', fontSize: 40}}
           caption={currentUser && currentUser.email}
@@ -95,30 +82,6 @@ class Profile extends Component {
             rightTitle={currentUser && currentUser.email}
             hideChevron />
             <ListItem
-            containerStyle = {{paddingRight:35, paddingBottom:15, paddingTop: 15}}
-            title="My ordering"
-            rightIcon={<Ionicons name= "ios-checkmark-circle-outline" size={30} color='grey'/>}
-            onPress={this.MyOrderingScreen.bind(this)}
-            />
-            {/* <ListItem
-            containerStyle = {{paddingRight:35, paddingBottom:15, paddingTop: 15}}
-            title="My history"
-            rightIcon={<Ionicons name= "md-time" size={30} color='grey'/>}
-            onPress={this.MyHistoryScreen.bind(this)}
-            />
-            <ListItem
-            containerStyle = {{paddingRight:35, paddingBottom:15, paddingTop: 15}}
-            title="My favourite"
-            rightIcon={<Ionicons name= "ios-heart-empty" size={30} color='grey'/>}
-            onPress={this.MyFavouriteScreen.bind(this)}
-            /> */}
-            {/* <ListItem
-            containerStyle = {{paddingRight:35, paddingBottom:15, paddingTop: 15}}
-            title="Invite friends"
-            rightIcon={<Ionicons name= "md-gift" size={30} color='grey'/>}
-            onPress={() => Linking.openURL('mailto:1151102173@student.mmu.edu.my?subject=Ivitation to Foodie!')}
-            /> */}
-            <ListItem
             containerStyle = {{paddingRight:42, paddingBottom:8, paddingTop: 8}}
             title="Restaurant suggestion"
             rightIcon={<Ionicons name= "ios-help" size={45} color='grey'/>}
@@ -131,7 +94,7 @@ class Profile extends Component {
             onPress={() => Linking.openURL('mailto:1151102173@student.mmu.edu.my?subject=Feedback on Foodie')}
             />
             <ListItem
-            containerStyle = {{paddingRight:35, paddingBottom:35, paddingTop: 15}}
+            containerStyle = {{paddingRight:35, paddingBottom:15, paddingTop: 15}}
             title="Log out"
             rightIcon={<Ionicons name= "md-log-out" size={30} color='grey'/>}
             onPress={() => this.handleLogout()}

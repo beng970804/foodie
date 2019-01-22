@@ -3,8 +3,8 @@ import { View, Text, Image, StyleSheet, Alert, Platform, Dimensions, Keyboard, S
 import Swipeout from 'react-native-swipeout';
 import firebase, { firestore } from 'react-native-firebase';
 import Modal from 'react-native-modal';
-import { Tile, Button } from 'react-native-elements';
-import ImagePicker, { showImagePicker } from "react-native-image-picker";
+import { Tile } from 'react-native-elements';
+import ButtonComponent, { CircleButton, RoundButton, RectangleButton } from 'react-native-button-component';
 
 import { fonts, colors } from '../../theme';
 import Input from '../Input';
@@ -39,10 +39,16 @@ const styles = StyleSheet.create({
         height: 100
     },
     titleContainer: {
-        fontSize: 25
+        color: colors.primary,
+        fontSize: 25,
+        fontFamily: fonts.bold,
+        fontWeight: 'bold'
     },
     subtitleContainer: {
-        
+        color: '#666',
+        fontSize: 18,
+        marginTop: 5,
+        fontWeight: 'bold',
     },
     //Modal Style
     bottomModal: {
@@ -123,23 +129,19 @@ class MenuEditList extends Component {
           )
         }
         return(
-          <Button 
-            title = "Update Dishes"
-            textStyle = {{
-              color: colors.grey,
-              fontWeight: '100',
-            }}
-            buttonStyle={{
-              backgroundColor: "#FFFFFF",
-              borderColor: "#FF1493",
-              borderWidth: 2,
-              borderRadius: 5,
-              marginTop: 30,
-              marginHorizontal: 70
-            }}
+        <ButtonComponent
+            buttonStyle={{marginTop: 15}}
+            text="Update Dishes"
+            type="primary"
+            shape="round"
+            backgroundColors={['#ff1493', '#ff72be']}
+            gradientStart={{ x: 0.5, y: 1 }}
+            gradientEnd={{ x: 1, y: 1 }}
+            height={65}
             onPress={() => this.editDishes()}
-          />
-        );
+        >
+        </ButtonComponent>
+    );
     }
 
     editDishes() {
@@ -271,7 +273,9 @@ class MenuEditList extends Component {
 
                             <Text style={styles.errorTextStyle}>{this.state.error}</Text>
           
-                            {this.renderButton()}
+                            <View style={{ marginHorizontal: 20}}>
+                                {this.renderButton()}
+                            </View>
 
                         </ScrollView>
                     </View>
