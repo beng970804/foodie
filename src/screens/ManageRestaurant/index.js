@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ALert } from 'react-native';
+import { View, Alert } from 'react-native';
 import { Tile, List, ListItem} from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import firebase, { firestore } from 'react-native-firebase';

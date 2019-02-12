@@ -174,26 +174,24 @@ class AddRestaurant extends Component {
           featured
           containerStyle = {{height: 320}}
           imageContainerStyle = {{height: 340}}
-        />  
-
-        <Button 
-          title = "Select Restaurant's Image"
-          textStyle = {{
-            color: colors.grey,
-            fontWeight: '100',
-          }}
-          buttonStyle={{
-            backgroundColor: "#FFFFFF",
-            borderColor: "#FF1493",
-            borderWidth: 2,
-            borderRadius: 5,
-            marginTop: 30,
-            marginHorizontal: 70
-          }}
-          onPress={() => this.showImagePicker()}
-          />
+        /> 
 
         <View style={styles.inputContainer}>
+          <ButtonComponent
+              buttonStyle={{marginTop: 15,}}
+              text="Select Restaurant's Image"
+              type="primary"
+              shape="round"
+              backgroundColors={['#ff1493', '#ff72be']}
+              gradientStart={{ x: 0.5, y: 1 }}
+              gradientEnd={{ x: 1, y: 1 }}
+              height={65}
+              onPress={() => this.showImagePicker()}
+            >
+          </ButtonComponent>
+        </View> 
+
+        <View style={styles.inputContainer}>     
           <Input
             placeholder="Name"
             onChangeText={restaurantName => this.setState({ restaurantName })}
