@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions, TouchableHighlight, StyleSheet, Alert} from 'react-native';
+import { ScrollView, View, Text, Image, Dimensions, TouchableHighlight, StyleSheet, Alert} from 'react-native';
 
 import Swipeout from 'react-native-swipeout';
 import firebase, { firestore } from 'react-native-firebase';
@@ -281,19 +281,21 @@ render() {
   } else {
       return (
       <Swipeout {...swipeSettings}>
+        <ScrollView>
           <View style={styles.columeContainer}>
-              <View style={styles.rowContainer}>
-                  <Image
-                      source={{uri: this.props.restaurantImageUrl}}
-                      style={styles.imageContainer}
-                  />
+            <View style={styles.rowContainer}>
+              <Image
+                source={{uri: this.props.restaurantImageUrl}}
+                style={styles.imageContainer}
+              />
 
-                  <View style={styles.textContainer}>
-                      <Text style={styles.titleContainer}>{this.props.restaurantName}</Text>
-                      <Text style={styles.subtitleContainer}>{this.props.restaurantType}</Text>
-                  </View>
+              <View style={styles.textContainer}>
+                <Text style={styles.titleContainer}>{this.props.restaurantName}</Text>
+                <Text style={styles.subtitleContainer}>{this.props.restaurantType}</Text>
               </View>
+            </View>
           </View>
+        </ScrollView>
       </Swipeout>
       );
     }

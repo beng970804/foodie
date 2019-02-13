@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions, Image, Alert } from 'react-native';
+import { ScrollView, View, Text, StyleSheet, Dimensions, Image, Alert } from 'react-native';
 import firebase, { firestore } from 'react-native-firebase';
 import Swipeout from 'react-native-swipeout';
 import Modal from 'react-native-modal';
@@ -27,10 +27,18 @@ const styles = StyleSheet.create({
         color: colors.primary,
         fontSize: 25,
         fontFamily: fonts.bold,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        marginLeft: 10,
+    },
+    dateContainer: {
+        color: '#666',
+        fontSize: 18,
+        marginTop: 5,
+        fontWeight: 'bold',
+        marginLeft: 10,
     },
     subtitleContainer: {
-        color: '#666',
+        color: colors.primary,
         fontSize: 18,
         marginTop: 5,
         fontWeight: 'bold',
@@ -251,14 +259,16 @@ class ReservationList extends Component {
         } else {
             return (
                 <Swipeout {...swipeSettings}>
-                    <View style={styles.columeContainer}>
-                        <View style={styles.rowContainer}>
-                            <View style={styles.textContainer}>
-                                <Text style={styles.titleContainer}>{this.props.customerEmail}</Text>
-                                <Text style={styles.subtitleContainer}>{this.props.reservationDate}</Text>
+                    <ScrollView>
+                        <View style={styles.columeContainer}>
+                            <View style={styles.rowContainer}>
+                                <View style={styles.textContainer}>
+                                    <Text style={styles.titleContainer}>{this.props.customerEmail}</Text>
+                                    <Text style={styles.dateContainer}>{this.props.reservationDate}</Text>
+                                </View>
                             </View>
                         </View>
-                    </View>
+                    </ScrollView>
                 </Swipeout>
             );
         };

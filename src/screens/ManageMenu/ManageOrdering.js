@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, StyleSheet, Platform, StatusBar } from 'react-native';
+import { ScrollView, View, Text, FlatList, StyleSheet, Platform, StatusBar } from 'react-native';
 import firebase, { firestore } from 'react-native-firebase';
 
 import Spinner from '../../components/Spinner';
@@ -64,12 +64,12 @@ class ManageOrdering extends Component {
         </View>
       );
     } return (
-      <View>      
+      <ScrollView>      
         <FlatList 
           data={this.state.order}
           renderItem={({ item, index }) => <OrderingList {...item} index={index} />}
         />
-      </View>
+      </ScrollView>
     );
   }
 }

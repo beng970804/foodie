@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, FlatList, TextInput, StyleSheet, Platform, StatusBar } from 'react-native';
+import { ScrollView, View, FlatList, TextInput, StyleSheet, Platform, StatusBar } from 'react-native';
 import firebase, { firestore } from 'react-native-firebase';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -80,7 +80,7 @@ class DeletePromotion extends Component {
         </View>
       );
     } return (
-      <View>
+      <ScrollView>
           <SearchBar
              onChangeText={search => this.searchFilterFunction(search)}
           />       
@@ -88,7 +88,7 @@ class DeletePromotion extends Component {
             data={this.state.promotion}
             renderItem={({ item, index }) => <PromotionDeleteList {...item} index={index} />}
           />
-      </View>
+      </ScrollView>
     );
   }
 }

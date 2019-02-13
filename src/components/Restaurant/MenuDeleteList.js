@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, Alert } from 'react-native';
+import { ScrollView, View, Text, Image, StyleSheet, Alert } from 'react-native';
 import Swipeout from 'react-native-swipeout';
 import firebase, { firestore } from 'react-native-firebase';
+import { fonts, colors } from '../../theme';
 
 const styles = StyleSheet.create({
     columeContainer: {
@@ -28,10 +29,16 @@ const styles = StyleSheet.create({
         height: 100
     },
     titleContainer: {
-        fontSize: 25
+        color: colors.primary,
+        fontSize: 25,
+        fontFamily: fonts.bold,
+        fontWeight: 'bold',
     },
     subtitleContainer: {
-        
+        color: '#666',
+        fontSize: 18,
+        marginTop: 5,
+        fontWeight: 'bold',
     }
 })
 
@@ -130,19 +137,21 @@ class MenuDeleteList extends Component {
         //     onPress={() => this.toggleComplete()}
         //   >
         <Swipeout {...swipeSettings}>
-            <View style={styles.columeContainer}>
-                <View style={styles.rowContainer}>
-                    <Image
-                        source={{uri: this.props.dishesImageUrl}}
-                        style={styles.imageContainer}
-                    />
+            <ScrollView>
+                <View style={styles.columeContainer}>
+                    <View style={styles.rowContainer}>
+                        <Image
+                            source={{uri: this.props.dishesImageUrl}}
+                            style={styles.imageContainer}
+                        />
 
-                    <View style={styles.textContainer}>
-                        <Text style={styles.titleContainer}>{this.props.dishesName}</Text>
-                        <Text style={styles.subtitleContainer}>{this.props.dishesDescription}</Text>
+                        <View style={styles.textContainer}>
+                            <Text style={styles.titleContainer}>{this.props.dishesName}</Text>
+                            <Text style={styles.subtitleContainer}>{this.props.dishesDescription}</Text>
+                        </View>
                     </View>
                 </View>
-            </View>
+            </ScrollView>
         </Swipeout>
         //</TouchableHighlight>
         );

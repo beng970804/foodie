@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, Alert, Platform, Dimensions, Keyboard, ScrollView } from 'react-native';
+import { ScrollView, View, Text, Image, StyleSheet, Alert, Platform, Dimensions, Keyboard } from 'react-native';
 import Swipeout from 'react-native-swipeout';
 import firebase, { firestore } from 'react-native-firebase';
 import Modal from 'react-native-modal';
@@ -45,6 +45,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     subtitleContainer: {
+        color: colors.primary,
+        fontSize: 18,
+        marginTop: 5,
+        fontWeight: 'bold',
+        marginBottom: -20,
+    },
+    descriptionContainer: {
         color: '#666',
         fontSize: 18,
         marginTop: 5,
@@ -56,10 +63,11 @@ const styles = StyleSheet.create({
         marginHorizontal: 10
     },
     container: {
-        height: 400,
+        height: 500,
         backgroundColor: "#FFFFFF",
-        alignItems: "center",
-        justifyContent: "center"
+    },
+    modelContainer: {
+        marginHorizontal: 20,
     },
     errorTextStyle: {
         color: '#E64A19',
@@ -241,62 +249,74 @@ class MenuEditList extends Component {
                     style={styles.bottomModal}
                     >
                     <View style={styles.container}>
-                        <ScrollView 
-                            ref={ref => (this.scrollViewRef = ref)}
-                            onScroll={this.handleOnScroll}
-                            scrollEventThrottle={16}
-                        >
+                        <View style={styles.modelContainer}>
+                            <Text style={styles.subtitleContainer}>
+                                Dishes Name {'\n'}
+                            </Text>
+                            <Input
+                                editable = {false}
+                                placeholder="Name"
+                                onChangeText={dishesName => this.setState({ dishesName })}
+                                value={this.state.dishesName}
+                            />   
+                        </View>
 
-                            <View style={styles.inputContainer}>
-                                <Input
-                                    editable = {false}
-                                    placeholder="Name"
-                                    onChangeText={dishesName => this.setState({ dishesName })}
-                                    value={this.state.dishesName}
-                                />
-                                <Input
-                                    placeholder="Description"
-                                    onChangeText={dishesDescription => this.setState({ dishesDescription })}
-                                    value={this.state.dishesDescription}
-                                />
-                                <Input
-                                    placeholder="Ingredients"
-                                    onChangeText={dishesIngredients => this.setState({ dishesIngredients })}
-                                    value={this.state.dishesIngredients}
-                                />
-                                <Input
-                                    placeholder="Price"
-                                    onChangeText={dishesPrice => this.setState({ dishesPrice })}
-                                    value={this.state.dishesPrice}
-                                />
-                            </View>
+                        <View style={styles.modelContainer}>
+                            <Text style={styles.subtitleContainer}>
+                                Dishes Description {'\n'}
+                            </Text>
+                            <Input
+                                onChangeText={dishesDescription => this.setState({ dishesDescription })}
+                                value={this.state.dishesDescription}
+                            /> 
+                        </View>
 
-                            <Text style={styles.errorTextStyle}>{this.state.error}</Text>
-          
-                            <View style={{ marginHorizontal: 20}}>
-                                {this.renderButton()}
-                            </View>
+                        <View style={styles.modelContainer}>
+                            <Text style={styles.subtitleContainer}>
+                                Dishes Ingredients {'\n'}
+                            </Text>
+                            <Input
+                                onChangeText={dishesIngredients => this.setState({ dishesIngredients })}
+                                value={this.state.dishesIngredients}
+                            />  
+                        </View>
 
-                        </ScrollView>
+                        <View style={styles.modelContainer}>
+                            <Text style={styles.subtitleContainer}>
+                                Dishes Price {'\n'}
+                            </Text>
+                            <Input
+                                onChangeText={dishesPrice => this.setState({ dishesPrice })}
+                                value={this.state.dishesPrice}
+                            /> 
+                        </View>
+
+                        <Text style={styles.errorTextStyle}>{this.state.error}</Text>
+        
+                        <View style={{ marginHorizontal: 20}}>
+                            {this.renderButton()}
+                        </View>
                     </View>
                 </Modal>
             )
         } else {
             return (
             <Swipeout {...swipeSettings}>
-                <View style={styles.columeContainer}>
-                    <View style={styles.rowContainer}>
-                        <Image
-                            source={{uri: this.props.dishesImageUrl}}
-                            style={styles.imageContainer}
-                        />
+                <ScrollView>
+                    <View style={styles.columeContainer}>
+                        <View style={styles.rowContainer}>
+                            <Image
+                                source={{uri: this.props.dishesImageUrl}}
+                                style={styles.imageContainer}
+                            />
 
-                        <View style={styles.textContainer}>
-                            <Text style={styles.titleContainer}>{this.props.dishesName}</Text>
-                            <Text style={styles.subtitleContainer}>{this.props.dishesDescription}</Text>
+                            <View style={styles.textContainer}>
+                                <Text style={styles.titleContainer}>{this.props.dishesName}</Text>
+                                <Text style={styles.descriptionContainer}>{this.props.dishesDescription}</Text>
+                            </View>
                         </View>
                     </View>
-                </View>
+                </ScrollView>
             </Swipeout>
             );
         }
