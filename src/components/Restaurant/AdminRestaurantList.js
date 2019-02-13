@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, Alert } from 'react-native';
+import { ScrollView, View, Text, Image, StyleSheet, Alert } from 'react-native';
 import Swipeout from 'react-native-swipeout';
 import firebase, { firestore } from 'react-native-firebase';
+import { colors, fonts } from '../../theme';
 
 const styles = StyleSheet.create({
     columeContainer: {
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
         height: 100
     },
     titleContainer: {
-        fontSize: 25
+        fontSize: 25,
     },
     subtitleContainer: {
         
@@ -36,12 +37,6 @@ const styles = StyleSheet.create({
 })
 
 class AdminRestaurantList extends Component {
-    // toggle a todo as completed or not via update()
-    // toggleComplete() {
-    //     this.props.doc.ref.update({
-    //         complete: !this.props.complete,
-    //     });
-    // }
     constructor(props) {
         super(props);   
         this.state = {
@@ -182,25 +177,23 @@ class AdminRestaurantList extends Component {
             sectionId: 1   
         }; 
         return (
-        //   <TouchableHighlight
-        //     onPress={() => this.toggleComplete()}
-        //   >
         <Swipeout {...swipeSettings}>
-            <View style={styles.columeContainer}>
-                <View style={styles.rowContainer}>
-                    <Image
-                        source={{uri: this.props.restaurantImageUrl}}
-                        style={styles.imageContainer}
-                    />
+            <ScrollView>
+                <View style={styles.columeContainer}>
+                    <View style={styles.rowContainer}>
+                        <Image
+                            source={{uri: this.props.restaurantImageUrl}}
+                            style={styles.imageContainer}
+                        />
 
-                    <View style={styles.textContainer}>
-                        <Text style={styles.titleContainer}>{this.props.restaurantName}</Text>
-                        <Text style={styles.subtitleContainer}>{this.props.restaurantDescription}</Text>
+                        <View style={styles.textContainer}>
+                            <Text style={styles.titleContainer}>{this.props.restaurantName}</Text>
+                            {/* <Text style={styles.subtitleContainer}>{this.props.restaurantDescription}</Text> */}
+                        </View>
                     </View>
                 </View>
-            </View>
+            </ScrollView>
         </Swipeout>
-        //</TouchableHighlight>
         );
     }
 }

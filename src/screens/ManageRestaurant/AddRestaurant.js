@@ -26,6 +26,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
     justifyContent: 'center',
     paddingHorizontal: 40,
+  },
+  inputContainer2: {
+    justifyContent: 'center',
+    paddingHorizontal: 40,
   }
 })
 
@@ -241,7 +245,7 @@ class AddRestaurant extends Component {
 
         <Text style={styles.errorTextStyle}>{this.state.error}</Text>
           
-        <View style={{ marginHorizontal: 20}}>
+        <View style={styles.inputContainer2}>
           {this.renderButton()}
         </View>
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, FlatList, TextInput, StyleSheet, Platform, StatusBar } from 'react-native';
+import { ScrollView, View, FlatList, TextInput, StyleSheet, Platform, StatusBar } from 'react-native';
 import firebase, { firestore } from 'react-native-firebase';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -78,7 +78,7 @@ class DeleteRestaurant extends Component {
         </View>
       );
     } return (
-      <View>
+      <ScrollView>
           <SearchBar
              onChangeText={search => this.searchFilterFunction(search)}
           />       
@@ -86,7 +86,7 @@ class DeleteRestaurant extends Component {
             data={this.state.restaurants}
             renderItem={({ item, index }) => <AdminRestaurantList {...item} index={index} />}
           />
-      </View>
+      </ScrollView>
     );
   }
 }
