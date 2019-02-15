@@ -35,10 +35,17 @@ textContainer: {
   height: 100
 },
 titleContainer: {
-  fontSize: 25
+  color: colors.primary,
+  fontSize: 25,
+  fontFamily: fonts.bold,
+  fontWeight: 'bold',
+  marginLeft: 10,
 },
 subtitleContainer: {
-    
+  color: colors.primary,
+  fontSize: 18,
+  marginTop: 5,
+  fontWeight: 'bold',
 },
 //Modal Style
 bottomModal: {
@@ -48,14 +55,19 @@ bottomModal: {
 container: {
   height: 650,
   backgroundColor: "#FFFFFF",
-  alignItems: "center",
-  justifyContent: "center"
 },
-inputContainer: {
-  marginTop: 10,
-  justifyContent: 'center',
-  paddingHorizontal: 0,
-}  
+lineStyle:{
+  borderWidth: 0.5,
+  borderColor: colors.grey,
+  marginTop: 5,
+},
+body: {
+  marginTop: -15,
+},
+modelContainer: {
+  marginHorizontal: 20,
+  marginTop: 5,
+},
 })
 
 class ArchiveList extends Component {
@@ -217,62 +229,95 @@ render() {
                   scrollEventThrottle={16}
                 >
 
-                <View style={styles.inputContainer}>
-                  <Input
-                    editable = {false}
-                    placeholder="Name"
-                    onChangeText={restaurantName => this.setState({ restaurantName })}
-                    value={this.state.restaurantName}
-                  />
-                  <Input
-                    editable = {false}
-                    placeholder="Address"
-                    onChangeText={restaurantAddress => this.setState({ restaurantAddress })}
-                    value={this.state.restaurantAddress}
-                  />
-                  <Input
-                    editable = {false}
-                    placeholder="Area"
-                    onChangeText={restaurantArea => this.setState({ restaurantArea })}
-                    value={this.state.restaurantArea}
-                  />
-                  <Input
-                    editable = {false}
-                    placeholder="Zip Code"
-                    onChangeText={restaurantZipCode => this.setState({ restaurantZipCode })}
-                    value={this.state.restaurantZipCode}
-                  />
-                  <Input
-                    editable = {false}
-                    placeholder="State"
-                    onChangeText={restaurantState => this.setState({ restaurantState })}
-                    value={this.state.restaurantState}
-                  />
-                  <Input
-                    editable = {false}
-                    placeholder="Phone Number"
-                    onChangeText={restaurantPhone => this.setState({ restaurantPhone })}
-                    value={this.state.restaurantPhone}
-                  />
-                  <Input
-                    editable = {false}
-                    placeholder="Type"
-                    onChangeText={restaurantType => this.setState({ restaurantType })}
-                    value={this.state.restaurantType}
-                  />
-                  <Input
-                    editable = {false}
-                    placeholder="Description"
-                    onChangeText={restaurantDescription => this.setState({ restaurantDescription })}
-                    value={this.state.restaurantDescription}
-                  />
-                  <Input
-                    editable = {false}
-                    placeholder="Email"
-                    onChangeText={restaurantEmail => this.setState({ restaurantEmail })}
-                    value={this.state.restaurantEmail}
-                  />
+                <View style={styles.modelContainer}>
+                    <Text style={styles.subtitleContainer}>
+                        Restaurant Name {'\n'}
+                    </Text>
+                    <Text style={styles.body}>
+                        {this.state.restaurantName}
+                    </Text>      
                 </View>
+                <View style = {styles.lineStyle} />
+
+                <View style={styles.modelContainer}>
+                    <Text style={styles.subtitleContainer}>
+                        Restaurant Address {'\n'}
+                    </Text>
+                    <Text style={styles.body}>
+                        {this.state.restaurantAddress}
+                    </Text>      
+                </View>
+                <View style = {styles.lineStyle} />
+
+                <View style={styles.modelContainer}>
+                    <Text style={styles.subtitleContainer}>
+                        Restaurant Area {'\n'}
+                    </Text>
+                    <Text style={styles.body}>
+                        {this.state.restaurantArea}
+                    </Text>      
+                </View>
+                <View style = {styles.lineStyle} />
+
+                <View style={styles.modelContainer}>
+                    <Text style={styles.subtitleContainer}>
+                        Restaurant Zip Code {'\n'}
+                    </Text>
+                    <Text style={styles.body}>
+                        {this.state.restaurantZipCode}
+                    </Text>      
+                </View>
+                <View style = {styles.lineStyle} />
+
+                <View style={styles.modelContainer}>
+                    <Text style={styles.subtitleContainer}>
+                        Restaurant State {'\n'}
+                    </Text>
+                    <Text style={styles.body}>
+                        {this.state.restaurantState}
+                    </Text>      
+                </View>
+                <View style = {styles.lineStyle} />
+
+                <View style={styles.modelContainer}>
+                    <Text style={styles.subtitleContainer}>
+                        Restaurant Phone {'\n'}
+                    </Text>
+                    <Text style={styles.body}>
+                        {this.state.restaurantPhone}
+                    </Text>      
+                </View>
+                <View style = {styles.lineStyle} />
+
+                <View style={styles.modelContainer}>
+                    <Text style={styles.subtitleContainer}>
+                        Restaurant Type {'\n'}
+                    </Text>
+                    <Text style={styles.body}>
+                        {this.state.restaurantType}
+                    </Text>      
+                </View>
+                <View style = {styles.lineStyle} />
+
+                <View style={styles.modelContainer}>
+                    <Text style={styles.subtitleContainer}>
+                        Restaurant Description {'\n'}
+                    </Text>
+                    <Text style={styles.body}>
+                        {this.state.restaurantDescription}
+                    </Text>      
+                </View>
+                <View style = {styles.lineStyle} />
+
+                <View style={styles.modelContainer}>
+                    <Text style={styles.subtitleContainer}>
+                        Restaurant Email {'\n'}
+                    </Text>
+                    <Text style={styles.body}>
+                        {this.state.restaurantEmail}
+                    </Text>      
+                </View>
+                <View style = {styles.lineStyle} />
 
               </View>
             </View>
@@ -291,7 +336,6 @@ render() {
 
               <View style={styles.textContainer}>
                 <Text style={styles.titleContainer}>{this.props.restaurantName}</Text>
-                <Text style={styles.subtitleContainer}>{this.props.restaurantType}</Text>
               </View>
             </View>
           </View>
